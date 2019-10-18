@@ -18,7 +18,7 @@ before_script:
   - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
   - mkdir -p ~/.ssh
   - chmod 700 ~/.ssh
-  
+
   # Append keyscan output into known hosts
   - ssh-keyscan $SERVER_DOMAIN >> ~/.ssh/known_hosts
   - chmod 644 ~/.ssh/known_hosts
@@ -28,6 +28,10 @@ test:
   stage: test
   script:
     - npm run lint
+  only:
+    - master
+    - staging
+    - dev
 
 deploy:
   stage: deploy
