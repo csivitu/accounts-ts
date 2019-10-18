@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "lint": "eslint '**/*.{js,jsx}'"
   },
   "author": "",
   "license": "ISC",
@@ -17,7 +18,11 @@
     "express-session": "^1.16.1",
     "mongoose": "^5.5.5"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "eslint": "^6.5.1",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2"
+  },
   "repository": {
     "type": "git",
     "url": "git@gitlab.com:csivit/ccs/ccs-website/ccs-backend.git"

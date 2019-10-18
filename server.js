@@ -1,16 +1,18 @@
-require(`dotenv`).config();
-require(`./models/db`);
+require('dotenv').config();
+require('./models/db');
 
-const express = require(`express`);
+const express = require('express');
 
-const bodyparser = require(`body-parser`);
+const bodyparser = require('body-parser');
 
-const session = require(`express-session`);
+const session = require('express-session');
 
-var app = express();
+const app = express();
+
+const port = process.env.PORT || 3000;
 
 app.use(bodyparser.urlencoded({
-    extended: true
+    extended: true,
 }));
 
 app.use(bodyparser.json());
@@ -20,11 +22,9 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        maxAge: 12 * 60 * 60 * 100
-    }
+        maxAge: 12 * 60 * 60 * 100,
+    },
 }));
-
-var port = process.env.PORT || 3000;
 
 app.listen(port, () => {
     console.log(`Express server started at port: ${port}`);
