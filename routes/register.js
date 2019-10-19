@@ -1,11 +1,10 @@
-import { verifyEmail, verifyMobile, verifyPassword } from './verify';
-
 const express = require('express');
 const bcrypt = require('bcrypt');
 
 const router = express.Router();
 const Participant = require('../models/participant.model');
 const constants = require('./constants');
+const { verifyEmail, verifyMobile, verifyPassword } = require('./verify');
 
 router.post('/', async (req, res) => {
     const saltRounds = 10;
