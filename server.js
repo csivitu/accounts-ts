@@ -7,8 +7,11 @@ const bodyparser = require('body-parser');
 
 const session = require('express-session');
 
-const app = express();
+const indexRouter = require('./routes/index');
+const registerRouter = require('./routes/register');
+const loginRouter = require('./routes/login');
 
+const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(bodyparser.urlencoded({
@@ -29,3 +32,7 @@ app.use(session({
 app.listen(port, () => {
     console.log(`Express server started at port: ${port}`);
 });
+
+app.use('/register', registerRouter);
+app.use('/login', loginRouter);
+app.use('/', indexRouter);
