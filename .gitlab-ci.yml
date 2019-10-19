@@ -5,7 +5,7 @@ cache:
     - node_modules/
 
 stages:
-  - test
+  # - test
   - deploy
 
 before_script:
@@ -36,9 +36,9 @@ test:
 deploy:
   stage: deploy
   script:
-    - rsync -avuz --exclude=".*" $CI_PROJECT_DIR $SERVER_USER@$SERVER_IP:~
+    - rsync -avuz --exclude=".*" $CI_PROJECT_DIR $SERVER_USER@$SERVER_DOMAIN:~
     # Non interactive ssh gracefully reloads server
-    - ssh $SERVER_USER@$SERVER_IP '. /etc/profile; pm2 reload all'
+    - ssh $SERVER_USER@$SERVER_DOMAIN '. /etc/profile; pm2 reload all'
   only:
     # Trigger deployments only from master branch
     - master
