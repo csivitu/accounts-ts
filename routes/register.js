@@ -1,25 +1,22 @@
+import { verifyEmail, verifyMobile, verifyPassword } from './verify';
+
 const express = require('express');
+const bcrypt = require('bcrypt');
 
 const router = express.Router();
 const Participant = require('../models/participant.model');
 const constants = require('./constants');
 
-const getBodyAttribute = (req, attribute) => req.body[attribute];
-
-const verifyEmail = (email) => constants.emailRegex.test(email);
-
-const verifyMobile = (mobile) => constants.mobileRegex.verifyMobile.test(mobile);
-
-const verifyPassword = (password) => constants.passwordRegex.verifyPassword.test(password);
-
 router.post('/', async (req, res) => {
-    const participant = new Participant();
-    participant.name = getBodyAttribute(req, 'name');
-    participant.email = getBodyAttribute(req, 'email');
-    participant.mobile = getBodyAttribute(req, 'mobile');
-    participant.password = getBodyAttribute(req, 'password');
-    participant.regNo = getBodyAttribute(req, 'regNo');
-    participant.gender = getBodyAttribute(req, 'gender');
+    const saltRounds = 10;
+
+    const participant = new Participant({
+        name: req.body.name,
+        email: req.body.email,
+        password: await bcrypt.hash(req.body.password, saltRounds),
+        regNo: req.body.regNo,
+        gender: req.body.gender,
+    });
 
     const jsonResponse = {
         success: false,

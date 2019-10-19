@@ -7,8 +7,6 @@ const router = express.Router();
 const Participant = require('../models/participant.model');
 const constants = require('./constants');
 
-const getBodyAttribute = (req, attribute) => req.body[attribute];
-
 // Check email and password length
 
 router.post('/', async (req, res) => {
@@ -17,8 +15,7 @@ router.post('/', async (req, res) => {
         message: constants.defaultResponse,
     };
 
-    const email = getBodyAttribute(req, 'email');
-    const password = getBodyAttribute(req, 'password');
+    const { email, password } = req.body;
 
     const participant = await Participant.findOne({
         email,
