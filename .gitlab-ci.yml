@@ -5,7 +5,7 @@ cache:
     - node_modules/
 
 stages:
-  # - test
+  - test
   - deploy
 
 before_script:
@@ -24,14 +24,14 @@ before_script:
   - chmod 644 ~/.ssh/known_hosts
   - npm install
 
-# test:
-#   stage: test
-#   script:
-#     - npm run lint
-#   only:
-#     - master
-#     - staging
-#     - dev
+test:
+  stage: test
+  script:
+    - npm run lint
+  only:
+    - master
+    - staging
+    - dev
 
 deploy:
   stage: deploy
