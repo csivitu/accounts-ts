@@ -21,7 +21,6 @@ const participantSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
-        index: true,
     },
     regNo: {
         type: String,
@@ -29,9 +28,28 @@ const participantSchema = new mongoose.Schema({
     },
     gender: {
         type: String,
+        enum: ['M', 'F'],
         required: true,
     },
     responses: [responseSchema],
+    timeStarted: {
+        type: String,
+    },
+    timeEnded: {
+        type: String,
+    },
+    emailVerificationToken: {
+        type: String,
+        required: true,
+    },
+    verificationStatus: {
+        type: String,
+        required: true,
+        default: false,
+    },
+    passwordResetToken: {
+        type: String,
+    },
 });
 
 module.exports = mongoose.model('Participant', participantSchema);

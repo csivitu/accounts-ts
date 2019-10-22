@@ -5,8 +5,7 @@ const bcrypt = require('bcrypt');
 const router = express.Router();
 
 const Participant = require('../models/participant.model');
-const constants = require('../middlewares/constants');
-const authAdmin = require('../middlewares/authAdmin');
+const constants = require('../tools/constants');
 
 router.post('/login', async (req, res) => {
     const jsonResponse = {
@@ -50,25 +49,6 @@ router.post('/login', async (req, res) => {
 router.post('/logout', async (req, res) => {
     await req.session.destroy();
 
-    res.json({
-        success: true,
-        message: constants.logoutSuccess,
-    });
-});
-
-router.post('/admin/login', async (req, res) => {
-    if (req.body.username === process.env.ADMIN_USERNAME
-        && req.body.password === process.env.ADMIN_PASSWORD) {
-        req.session.role = 'admin';
-        res.json({
-            success: true,
-            message: constants.loggedInAsAdmin,
-        });
-    }
-});
-
-router.post('/admin/logout', authAdmin, async (req, res) => {
-    await req.session.destroy();
     res.json({
         success: true,
         message: constants.logoutSuccess,

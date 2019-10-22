@@ -13,6 +13,11 @@ const questionSchema = new mongoose.Schema({
         unique: true,
         index: true,
     },
+    domain: {
+        type: String,
+        required: true,
+        enum: ['tech', 'design', 'management', 'video'],
+    },
 });
 
 module.exports = mongoose.model('Question', questionSchema);
