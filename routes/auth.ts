@@ -1,11 +1,10 @@
-const express = require('express');
+import express from 'express';
+import bcrypt from 'bcrypt';
 
-const bcrypt = require('bcrypt');
+export const router = express.Router();
 
-const router = express.Router();
-
-const Participant = require('../models/participant.model');
-const constants = require('../tools/constants');
+import { Participant } from  '../models/participant.model';
+import { constants } from  '../tools/constants';
 
 router.post('/login', async (req, res) => {
     const jsonResponse = {
@@ -55,4 +54,3 @@ router.post('/logout', async (req, res) => {
     });
 });
 
-module.exports = router;

@@ -1,15 +1,17 @@
-const express = require('express');
-const crypto = require('crypto');
-const hb = require('express-handlebars').create({
+import express from 'express';
+import crypto from 'crypto';
+import hbs from 'express-handlebars'
+
+import { Participant } from '../models/participant.model';
+import { constants } from '../tools/constants';
+import { sendMail } from '../tools/sendMail';
+
+const hb = hbs.create({
     extname: '.hbs',
     partialsDir: '.',
 });
 
-const Participant = require('../models/participant.model');
-const constants = require('../tools/constants');
-const sendMail = require('../tools/sendMail');
-
-const router = express.Router();
+export const router = express.Router();
 
 const sendResetMail = async (participant) => {
     const resetLink = new URL(process.env.RESET_LINK);
@@ -66,5 +68,3 @@ router.post('/resetPassword', async (req, res) => {
         message: constants.passwordResetSuccess,
     });
 });
-
-module.exports = router;

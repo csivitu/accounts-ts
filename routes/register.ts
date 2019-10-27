@@ -1,22 +1,27 @@
-const express = require('express');
-const bcrypt = require('bcrypt');
-const crypto = require('crypto');
+import express from 'express';
+import bcrypt from 'bcrypt';
+import crypto from 'crypto';
+import hbs from 'express-handlebars';
 
-const hb = require('express-handlebars').create({
-    extname: '.hbs',
-    partialsDir: '.',
-});
+import { Participant } from '../models/participant.model';
 
-const router = express.Router();
-const Participant = require('../models/participant.model');
-const constants = require('../tools/constants');
-const {
+import { constants } from '../tools/constants';
+import {
     verifyEmail,
     verifyMobile,
     verifyPassword,
     verifyRegNo,
-} = require('../tools/verify');
-const sendMail = require('../tools/sendMail');
+} from '../tools/verify';
+import { sendMail } from '../tools/sendMail';
+
+
+const hb = hbs.create({
+    extname: '.hbs',
+    partialsDir: '.',
+});
+
+
+export const router = express.Router();
 
 const sendVerificationMail = async (participant) => {
     const verifyLink = new URL(process.env.VERIFY_LINK);
@@ -114,4 +119,3 @@ router.post('/verify', async (req, res) => {
     });
 });
 
-module.exports = router;

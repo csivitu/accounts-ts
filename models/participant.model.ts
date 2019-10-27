@@ -1,5 +1,4 @@
-const mongoose = require('mongoose');
-const responseSchema = require('./response.schema');
+import mongoose, { Model } from 'mongoose';
 
 const participantSchema = new mongoose.Schema({
     name: {
@@ -31,13 +30,6 @@ const participantSchema = new mongoose.Schema({
         enum: ['M', 'F'],
         required: true,
     },
-    responses: [responseSchema],
-    timeStarted: {
-        type: String,
-    },
-    timeEnded: {
-        type: String,
-    },
     emailVerificationToken: {
         type: String,
         required: true,
@@ -52,4 +44,16 @@ const participantSchema = new mongoose.Schema({
     },
 });
 
-module.exports = mongoose.model('Participant', participantSchema);
+interface ParticipantInterface extends mongoose.Document {
+    name: string;
+    email: string;
+    mobile: string;
+    password: string;
+    regNo: string;
+    gender: string;
+    emailVerificationToken: string;
+    verificationStatus: string;
+    passwordResetToken: string;
+}
+
+export const Participant: Model<ParticipantInterface> = mongoose.model('Participant', participantSchema);

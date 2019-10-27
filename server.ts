@@ -1,16 +1,16 @@
-require('dotenv').config();
-require('./models/db');
+import * as dotenv from 'dotenv';
+import express from 'express';
+import bodyparser from 'body-parser';
+import session from 'express-session';
 
-const express = require('express');
+import { connectMongo } from './models/connect';
+import { router as registerRouter } from './routes/register';
+import { router as authRouter } from './routes/auth';
+import { router as forgotPasswordRouter } from './routes/forgotPassword';
 
-const bodyparser = require('body-parser');
+dotenv.config();
 
-const session = require('express-session');
-
-const indexRouter = require('./routes/index');
-const registerRouter = require('./routes/register');
-const authRouter = require('./routes/auth');
-const forgotPasswordRouter = require('./routes/forgotPassword');
+connectMongo();
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -37,4 +37,3 @@ app.listen(port, () => {
 app.use('/register', registerRouter);
 app.use('/auth', authRouter);
 app.use('/forgotPassword', forgotPasswordRouter);
-app.use('/', indexRouter);
