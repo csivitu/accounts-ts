@@ -1,4 +1,4 @@
-import * as sendgrid from 'sendgrid';
+import sendgrid from 'sendgrid';
 
 import { constants } from './constants';
 

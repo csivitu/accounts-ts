@@ -2,7 +2,7 @@ import express from 'express';
 import crypto from 'crypto';
 import hbs from 'express-handlebars'
 
-import { Participant } from '../models/participant.model';
+import { Participant, ParticipantInterface } from '../models/participant.model';
 import { constants } from '../tools/constants';
 import { sendMail } from '../tools/sendMail';
 
@@ -13,7 +13,7 @@ const hb = hbs.create({
 
 export const router = express.Router();
 
-const sendResetMail = async (participant) => {
+const sendResetMail = async (participant: ParticipantInterface) => {
     const resetLink = new URL(process.env.RESET_LINK);
     resetLink.search = `token=${participant.passwordResetToken}`;
 
