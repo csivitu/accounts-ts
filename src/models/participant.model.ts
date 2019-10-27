@@ -44,7 +44,7 @@ const participantSchema = new mongoose.Schema({
     },
 });
 
-interface ParticipantInterface extends mongoose.Document {
+export interface ParticipantInterface extends mongoose.Document {
     name: string;
     email: string;
     mobile: string;
