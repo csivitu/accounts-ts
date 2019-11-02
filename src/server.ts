@@ -6,7 +6,7 @@ import hbs from 'express-handlebars';
 
 import { connectMongo } from './models/connect';
 import { router as registerRouter } from './routes/register';
-import { router as authRouter } from './routes/auth';
+import { router as authRouter } from './routes/login';
 import { router as forgotPasswordRouter } from './routes/forgotPassword';
 
 dotenv.config();
@@ -49,5 +49,5 @@ app.listen(port, () => {
 
 app.use(express.static('static'));
 app.use('/register', registerRouter);
-app.use('/auth', authRouter);
+app.use('/login', authRouter);
 app.use('/forgotPassword', forgotPasswordRouter);

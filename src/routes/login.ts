@@ -10,7 +10,7 @@ router.get('/', async (req, res) => {
     res.render('login.html');
 });
 
-router.post('/login', async (req, res) => {
+router.post('/', async (req, res) => {
     const jsonResponse = {
         success: false,
         message: constants.defaultResponse,
