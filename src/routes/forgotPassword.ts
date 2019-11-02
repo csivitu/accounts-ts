@@ -1,17 +1,19 @@
-const express = require('express');
-const crypto = require('crypto');
-const hb = require('express-handlebars').create({
+import express from 'express';
+import crypto from 'crypto';
+import hbs from 'express-handlebars';
+
+import { Participant, ParticipantInterface } from '../models/participant.model';
+import { constants } from '../tools/constants';
+import { sendMail } from '../tools/sendMail';
+
+const hb = hbs.create({
     extname: '.hbs',
     partialsDir: '.',
 });
 
-const Participant = require('../models/participant.model');
-const constants = require('../tools/constants');
-const sendMail = require('../tools/sendMail');
+export const router = express.Router();
 
-const router = express.Router();
-
-const sendResetMail = async (participant) => {
+const sendResetMail = async (participant: ParticipantInterface) => {
     const resetLink = new URL(process.env.RESET_LINK);
     resetLink.search = `token=${participant.passwordResetToken}`;
 
@@ -67,4 +69,4 @@ router.post('/resetPassword', async (req, res) => {
     });
 });
 
-module.exports = router;
+export default router;

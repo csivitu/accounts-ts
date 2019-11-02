@@ -91,3 +91,5 @@ typings/
 
 .vscode
 .idea
+
+dist

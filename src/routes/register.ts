@@ -1,24 +1,29 @@
-const express = require('express');
-const bcrypt = require('bcrypt');
-const crypto = require('crypto');
+import express from 'express';
+import bcrypt from 'bcrypt';
+import crypto from 'crypto';
+import hbs from 'express-handlebars';
 
-const hb = require('express-handlebars').create({
-    extname: '.hbs',
-    partialsDir: '.',
-});
+import { Participant, ParticipantInterface } from '../models/participant.model';
 
-const router = express.Router();
-const Participant = require('../models/participant.model');
-const constants = require('../tools/constants');
-const {
+import { constants } from '../tools/constants';
+import {
     verifyEmail,
     verifyMobile,
     verifyPassword,
     verifyRegNo,
-} = require('../tools/verify');
-const sendMail = require('../tools/sendMail');
+} from '../tools/verify';
+import { sendMail } from '../tools/sendMail';
 
-const sendVerificationMail = async (participant) => {
+
+const hb = hbs.create({
+    extname: '.hbs',
+    partialsDir: '.',
+});
+
+
+export const router = express.Router();
+
+const sendVerificationMail = async (participant: ParticipantInterface) => {
     const verifyLink = new URL(process.env.VERIFY_LINK);
     verifyLink.search = `?token=${participant.emailVerificationToken}`;
     const renderedHtml = await hb.render('../templates/verify.hbs', {
@@ -28,6 +33,10 @@ const sendVerificationMail = async (participant) => {
     await sendMail(participant.name, participant.email,
         constants.sendVerificationMailSubject, renderedHtml);
 };
+
+router.get('/', async (req, res) => {
+    res.render('register');
+});
 
 router.post('/', async (req, res) => {
     const participant = new Participant({
@@ -114,4 +123,4 @@ router.post('/verify', async (req, res) => {
     });
 });
 
-module.exports = router;
+export default router;

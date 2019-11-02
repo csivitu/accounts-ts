@@ -1,11 +1,14 @@
+import sendgrid from 'sendgrid';
+
+import { constants } from './constants';
+
 const {
     SENDGRID_API_KEY,
 } = process.env;
 
-const Sendgrid = require('sendgrid')(SENDGRID_API_KEY);
-const constants = require('./constants');
+const Sendgrid = sendgrid(SENDGRID_API_KEY);
 
-const sendMail = async (name, email, subject, content) => {
+export const sendMail = async (name: string, email: string, subject: string, content: string) => {
     const sgReq = Sendgrid.emptyRequest({
         method: 'POST',
         path: '/v3/mail/send',
@@ -39,4 +42,4 @@ const sendMail = async (name, email, subject, content) => {
     await Sendgrid.API(sgReq);
 };
 
-module.exports = sendMail;
+export default sendMail;

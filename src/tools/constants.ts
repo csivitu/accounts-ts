@@ -1,4 +1,4 @@
-module.exports = {
+export const constants = {
     emailRegex: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((vitstudent.ac.in)|(vit.ac.in))$/,
     mobileRegex: /^[6-9]\d{8,9}$/, // 9-10 characters
     passwordRegex: /^[a-zA-Z0-9`!@#$%^&*()-/:'.,{}"~]{8,16}$/, // 8-16 characters,
@@ -35,3 +35,5 @@ module.exports = {
     sendVerificationMailSubject: 'Verify your CCS Account',
     verificationSuccess: 'verificationSuccess',
 };
+
+export default constants;

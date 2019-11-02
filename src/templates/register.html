@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <link href="https://fonts.googleapis.com/css?family=Cabin&display=swap" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+    </script>
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Your CSI-VIT Account</title>
+
+</head>
+
+<body>
+    <div class="backgroundImage"></div>
+    <div class="container-fluid">
+        <nav class="row py-3 px-5 navbar-expand blue-navbar navbar-static-top">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link white-text" href="https://csivit.com">HOME</a>
+                </li>
+                <li class="nav-item ml-4">
+                    <a class="nav-link white-text" href="#">EVENTS</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item mr-4">
+                    <a class="nav-link white-text" href="/login">LOGIN</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link white-text" href="/register">REGISTER</a>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="row main-row">
+            <div class="col-md-5 col-xs-5 col-sm-5 m-auto d-flex justify-content-center">
+                <div class="left-column d-flex flex-column justify-content-around">
+                    <div>
+                        <a href="https://csivit.com"><img class="img-fluid logo" alt="Responsive image" src="/static/images/CSIDark.png"></a>
+                    </div>
+                    <div class="title text-wrap font-weight-bold">
+                        ONE ACCOUNT,<br>
+                        ALL OF CSI-VIT.
+                    </div>
+                    <div class="subtitle text-wrap mt-3">
+                        Sign up once, login anywhere. Use this account for all<br> future logins, on any device at
+                        any time.
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-7 col-xs-7 col-sm-7 m-auto">
+                <div class="reg-card ml-5 card p-3">
+                    <div class="card-title"><strong>REGISTER</strong></div>
+                    <div class="card-body px-5 py-0">
+                        <form id="login-form" class="login-form-1" method="GET" action="/register">
+
+                            <div class="form-group">
+                                <label for="lg_name" class="sr-only">Name</label>
+                                <input type="text" class="form-control" id="lg_name" name="name" placeholder="Name"
+                                    maxlength="100" required>
+                            </div>
+
+                            <div class="form-group py-1">
+                                <label for="lg_username" class="sr-only">Username</label>
+                                <input type="text" class="form-control" id="lg_username" name="username"
+                                    placeholder="Username" maxlength="70" required>
+                            </div>
+
+                            <div class="form-group py-1">
+                                <label for="lg_password" class="sr-only">Password</label>
+                                <input type="password" class="form-control" id="lg_password" name="password"
+                                    placeholder="Password" maxlength="70" required>
+                            </div>
+
+                            <div class="form-group py-1">
+                                <label for="lg_phone" class="sr-only">Phone</label>
+                                <input type="text" class="form-control" id="lg_phone" name="phone"
+                                    placeholder="Phone Number" maxlength="20" required>
+                            </div>
+
+                            <div class="form-control vit-student">
+                                <input type="checkbox" class="mr-2" id="lg_vitian" name="password" placeholder=""
+                                    maxlength="70" checked>
+                                    I am a VIT Student
+                            </div>
+
+                            <div class="form-group py-1 hide-group">
+                                <label for="lg_regno" class="sr-only">Registration Number</label>
+                                <input type="text" class="form-control" id="lg_regno" name="regno"
+                                    placeholder="Registration Number" maxlength="70">
+                            </div>
+
+                            <div class="form-group py-1">
+                                <label for="lg_email" class="sr-only">Email- ID</label>
+                                <input type="text" class="form-control" id="lg_email" name="email"
+                                    placeholder="VIT Email-ID" maxlength="180" required>
+                            </div>
+
+                            <div class="form-check form-control">Gender
+                                <input class="ml-5" type="radio" name="gender" id="inlineRadio1" value="M" required>
+                                <label class="mr-3 px-1" for="inlineRadio1">Male</label>
+
+                                <input class="ml-2" type="radio" name="gender" id="inlineRadio2" value="F">
+                                <label class="px-1" for="inlineRadio2">Female</label>
+                            </div>
+                            <div class="submit-button-container text-center">
+                                <input type="submit" class="btn mt-2 submit-button px-4" value="SUBMIT" />
+                            </div>
+                            <div class="text-center form-message mt-2">
+                                Already registered? <a href="/login">Login</a>.
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="row p-5 footer-bottom d-none"></div>
+            </div>
+        </div>
+        <footer class="footer p-3 row navbar-static-bottom">
+            <div class="container text-center text-md-left footer-content">
+                <div class="row d-flex justify-content-around">
+                    <a href="https://www.facebook.com/csivitu" target="_blank" rel="noopener noreferrer"><img src="/static/images/facebook-logo.png"
+                            class="footer-img" ></a>
+                    <a href="https://twitter.com/csivitu" target="_blank" rel="noopener noreferrer"><img src="/static/images/twitter2.png"
+                            class="footer-img" ></a>
+                    <a href="https://www.instagram.com/csivitu/" target="_blank" rel="noopener noreferrer"><img src="/static/images/instagram2.png"
+                            class="footer-img" ></a>
+                    <a href="https://csivit.com" target="_blank" rel="noopener noreferrer"><img src="/static/images/@csivitu.png"
+                            class="footer-img" ></a>
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
+
+<script src="register.js"></script>
+
+</html>

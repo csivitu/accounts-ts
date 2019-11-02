@@ -1,13 +1,16 @@
-const express = require('express');
+import express from 'express';
+import bcrypt from 'bcrypt';
 
-const bcrypt = require('bcrypt');
+import { Participant } from '../models/participant.model';
+import { constants } from '../tools/constants';
 
-const router = express.Router();
+export const router = express.Router();
 
-const Participant = require('../models/participant.model');
-const constants = require('../tools/constants');
+router.get('/', async (req, res) => {
+    res.render('login.html');
+});
 
-router.post('/login', async (req, res) => {
+router.post('/', async (req, res) => {
     const jsonResponse = {
         success: false,
         message: constants.defaultResponse,
@@ -47,7 +50,7 @@ router.post('/login', async (req, res) => {
 });
 
 router.post('/logout', async (req, res) => {
-    await req.session.destroy();
+    req.session.destroy(() => {});
 
     res.json({
         success: true,
@@ -55,4 +58,4 @@ router.post('/logout', async (req, res) => {
     });
 });
 
-module.exports = router;
+export default router;

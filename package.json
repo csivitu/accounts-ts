@@ -4,9 +4,9 @@
   "description": "Backend for CCS Website",
   "main": "server.js",
   "scripts": {
+    "start": "ts-node-dev --respawn --transpileOnly src/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
-    "lint": "eslint '**/*.{js,jsx}'"
+    "lint": "eslint '**/*.{ts,js,jsx}'"
   },
   "author": "",
   "license": "ISC",
@@ -22,9 +22,20 @@
     "sendgrid": "^5.2.3"
   },
   "devDependencies": {
-    "eslint": "^6.5.1",
+    "@types/bcrypt": "^3.0.0",
+    "@types/body-parser": "^1.17.1",
+    "@types/express": "^4.17.1",
+    "@types/express-handlebars": "0.0.33",
+    "@types/express-session": "^1.15.15",
+    "@types/mongoose": "^5.5.23",
+    "@types/node": "^12.11.7",
+    "@typescript-eslint/eslint-plugin": "^2.6.0",
+    "@typescript-eslint/parser": "^2.6.0",
+    "eslint": "^6.6.0",
     "eslint-config-airbnb-base": "^14.0.0",
-    "eslint-plugin-import": "^2.18.2"
+    "eslint-plugin-import": "^2.18.2",
+    "ts-node-dev": "^1.0.0-pre.44",
+    "typescript": "^3.6.4"
   },
   "repository": {
     "type": "git",
