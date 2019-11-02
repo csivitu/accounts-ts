@@ -34,6 +34,10 @@ const sendVerificationMail = async (participant: ParticipantInterface) => {
         constants.sendVerificationMailSubject, renderedHtml);
 };
 
+router.get('/', async (req, res) => {
+    res.render('register');
+});
+
 router.post('/', async (req, res) => {
     const participant = new Participant({
         name: req.body.name,

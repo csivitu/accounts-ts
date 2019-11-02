@@ -8,7 +8,7 @@ const {
 
 const Sendgrid = sendgrid(SENDGRID_API_KEY);
 
-export const sendMail = async (name, email, subject, content) => {
+export const sendMail = async (name: string, email: string, subject: string, content: string) => {
     const sgReq = Sendgrid.emptyRequest({
         method: 'POST',
         path: '/v3/mail/send',
