@@ -1,5 +1,5 @@
+// eslint-disable-next-line no-unused-vars
 function replaceForm() {
-
     const passwordResetForm = `<form id="login-form" class="login-form-1" method="POST" action="/forgotPassword" onsubmit="notify()">
 
                                     <div class="form-group py-1">
@@ -18,20 +18,21 @@ function replaceForm() {
                                 </form>`;
 
     const cardTitle = '<div class="card-title"><strong>FORGOT PASSWORD</strong></div>';
-    $(".card-title").replaceWith(cardTitle);
-    $("#login-form").replaceWith(passwordResetForm);
+    $('.card-title').replaceWith(cardTitle);
+    $('#login-form').replaceWith(passwordResetForm);
 }
 
+// eslint-disable-next-line no-unused-vars
 function notify() {
-    const email = $("#lg_email").val()
+    const email = $('#lg_email').val();
     const message = `<div class="text-center form-message mt-3">
                         We have emailed password-reset instructions to<br>
                         <a href="mailto:${email}" style="color: #0381ff; font-size: 2rem;">${email}</a>.<br><br>
                         Need help? <a href="mailto:askcsivit@gmail.com">Contact us</a>.
-                    </div>`
+                    </div>`;
 
     const cardTitle = '<div class="card-title"><strong>CHECK YOUR EMAIL</strong></div>';
 
-    $(".card-title").replaceWith(cardTitle);
-    $(".card-body").replaceWith(message);
+    $('.card-title').replaceWith(cardTitle);
+    $('.card-body').replaceWith(message);
 }
