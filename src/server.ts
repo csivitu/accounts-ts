@@ -2,6 +2,7 @@ import * as dotenv from 'dotenv';
 import express from 'express';
 import bodyparser from 'body-parser';
 import session from 'express-session';
+import hbs from 'express-handlebars';
 
 import { connectMongo } from './models/connect';
 import { router as registerRouter } from './routes/register';
@@ -14,6 +15,18 @@ connectMongo();
 
 const app = express();
 const port = process.env.PORT || 3000;
+
+// view engine setup
+app.set("views", __dirname + "/templates");
+
+app.engine('html', hbs( {
+    extname: '.html',
+    defaultLayout: __dirname + '/templates/main',
+    layoutsDir: __dirname + '/templates',
+    partialsDir: __dirname + '/templates/partials'
+  }));
+
+app.set('view engine', 'html');
 
 app.use(bodyparser.urlencoded({
     extended: true,
@@ -34,6 +47,7 @@ app.listen(port, () => {
     console.log(`Express server started at port: ${port}`);
 });
 
+app.use(express.static('static'));
 app.use('/register', registerRouter);
 app.use('/auth', authRouter);
 app.use('/forgotPassword', forgotPasswordRouter);

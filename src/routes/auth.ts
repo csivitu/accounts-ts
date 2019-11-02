@@ -6,6 +6,10 @@ export const router = express.Router();
 import { Participant } from  '../models/participant.model';
 import { constants } from  '../tools/constants';
 
+router.get('/', async (req, res) => {
+    res.render('login.html');
+});
+
 router.post('/login', async (req, res) => {
     const jsonResponse = {
         success: false,
