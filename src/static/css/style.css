@@ -4,13 +4,13 @@ html {
 
 body {
     font-family: 'Cabin', sans-serif;
-    background-image: url('./assets/Group_131.png');
+    background-image: url('./assets/background.png');
     background-repeat: repeat;
     background-attachment: fixed;
     background-size: cover;
-    -webkit-animation: backgroundScroll 200s linear infinite;
+    -webkit-animation: backgroundScroll 150s linear infinite;
     -webkit-animation-fill-mode: forwards;
-    animation: backgroundScroll 200s linear infinite;
+    animation: backgroundScroll 150s linear infinite;
     animation-fill-mode: forwards;
 }
 
@@ -32,6 +32,7 @@ body {
 
 .logo {
     max-height: 9vh;
+    padding: 1vh;
 }
 
 .title {
@@ -101,6 +102,12 @@ body {
 }
 
 @media (max-width: 769px) {
+    html {
+        font-size: 1.5vw;
+    }
+}
+
+@media (max-width: 575px) {
     html {
         font-size: 2vw;
     }
