@@ -131,12 +131,9 @@ body {
         font-size: 2vw;
     }
 
-    body {
-        -webkit-animation: none;
-        -webkit-animation-fill-mode: none;
-        animation: none;
-        animation-fill-mode: none;
-    }
+    .backgroundImage {
+		background-size: 250%;
+	}
 
     .blue-navbar {
         font-size: 1.7rem;
