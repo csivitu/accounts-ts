@@ -35,3 +35,5 @@ export const constants = {
     sendVerificationMailSubject: 'Verify your CCS Account',
     verificationSuccess: 'verificationSuccess',
 };
+
+export default constants;

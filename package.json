@@ -6,7 +6,7 @@
   "scripts": {
     "start": "ts-node-dev --respawn --transpileOnly src/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint '**/*.{js,jsx}'"
+    "lint": "eslint '**/*.{ts,js,jsx}'"
   },
   "author": "",
   "license": "ISC",

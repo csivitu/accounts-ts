@@ -3,6 +3,7 @@ import express from 'express';
 import bodyparser from 'body-parser';
 import session from 'express-session';
 import hbs from 'express-handlebars';
+import path from 'path';
 
 import { connectMongo } from './models/connect';
 import { router as registerRouter } from './routes/register';
@@ -16,15 +17,20 @@ connectMongo();
 const app = express();
 const port = process.env.PORT || 3000;
 
-// view engine setup
-app.set("views", __dirname + "/templates");
+const templateFolder = path.join(__dirname, 'templates');
+const mainLayout = path.join(templateFolder, 'main');
+const partialsFolder = path.join(templateFolder, 'partials');
 
-app.engine('html', hbs( {
+const staticFolder = path.join(__dirname, 'static');
+
+app.set('views', path.join(__dirname, 'templates'));
+
+app.engine('html', hbs({
     extname: '.html',
-    defaultLayout: __dirname + '/templates/main',
-    layoutsDir: __dirname + '/templates',
-    partialsDir: __dirname + '/templates/partials'
-  }));
+    defaultLayout: mainLayout,
+    layoutsDir: templateFolder,
+    partialsDir: partialsFolder,
+}));
 
 app.set('view engine', 'html');
 
@@ -47,7 +53,7 @@ app.listen(port, () => {
     console.log(`Express server started at port: ${port}`);
 });
 
-app.use('/static', express.static(__dirname + '/static'));
+app.use('/static', express.static(staticFolder));
 app.use('/register', registerRouter);
 app.use('/login', authRouter);
 app.use('/forgotPassword', forgotPasswordRouter);

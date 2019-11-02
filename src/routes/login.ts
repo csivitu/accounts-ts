@@ -1,10 +1,10 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
 
-export const router = express.Router();
+import { Participant } from '../models/participant.model';
+import { constants } from '../tools/constants';
 
-import { Participant } from  '../models/participant.model';
-import { constants } from  '../tools/constants';
+export const router = express.Router();
 
 router.get('/', async (req, res) => {
     res.render('login.html');
@@ -58,3 +58,4 @@ router.post('/logout', async (req, res) => {
     });
 });
 
+export default router;

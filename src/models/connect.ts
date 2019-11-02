@@ -7,5 +7,7 @@ export async function connectMongo() {
         useNewUrlParser: true,
         useCreateIndex: true,
     });
-    console.log("Connected to Mongo Sucesfully!");
+    console.log('Connected to Mongo Sucesfully!');
 }
+
+export default connectMongo;

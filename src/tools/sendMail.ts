@@ -42,3 +42,4 @@ export const sendMail = async (name: string, email: string, subject: string, con
     await Sendgrid.API(sgReq);
 };
 
+export default sendMail;

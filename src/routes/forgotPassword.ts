@@ -1,6 +1,6 @@
 import express from 'express';
 import crypto from 'crypto';
-import hbs from 'express-handlebars'
+import hbs from 'express-handlebars';
 
 import { Participant, ParticipantInterface } from '../models/participant.model';
 import { constants } from '../tools/constants';
@@ -68,3 +68,5 @@ router.post('/resetPassword', async (req, res) => {
         message: constants.passwordResetSuccess,
     });
 });
+
+export default router;

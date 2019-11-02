@@ -57,3 +57,4 @@ export interface ParticipantInterface extends mongoose.Document {
 }
 
 export const Participant: Model<ParticipantInterface> = mongoose.model('Participant', participantSchema);
+export default Participant;
