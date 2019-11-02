@@ -47,7 +47,7 @@ app.listen(port, () => {
     console.log(`Express server started at port: ${port}`);
 });
 
-app.use(express.static('static'));
+app.use('/static', express.static(__dirname + '/static'));
 app.use('/register', registerRouter);
 app.use('/login', authRouter);
 app.use('/forgotPassword', forgotPasswordRouter);
