@@ -4,8 +4,8 @@
   "description": "Backend for CCS Website",
   "main": "server.js",
   "scripts": {
+    "start": "ts-node src/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
     "lint": "eslint '**/*.{js,jsx}'"
   },
   "author": "",
@@ -31,7 +31,9 @@
     "@types/node": "^12.11.7",
     "eslint": "^6.5.1",
     "eslint-config-airbnb-base": "^14.0.0",
-    "eslint-plugin-import": "^2.18.2"
+    "eslint-plugin-import": "^2.18.2",
+    "ts-node": "^8.4.1",
+    "typescript": "^3.6.4"
   },
   "repository": {
     "type": "git",
