@@ -4,7 +4,17 @@ html {
 
 body {
     font-family: 'Cabin', sans-serif;
-    background-image: url('./assets/background.png');
+    width: 100vw;
+    height: 100vh;
+
+    overflow-x: hidden;
+    background-color: #f6f6f6;
+}
+
+.backgroundImage {
+    width: 100vw;
+    height: 100vh;
+    background-image: url('../images/background.png');
     background-repeat: repeat;
     background-attachment: fixed;
     background-size: cover;
@@ -12,6 +22,11 @@ body {
     -webkit-animation-fill-mode: forwards;
     animation: backgroundScroll 150s linear infinite;
     animation-fill-mode: forwards;
+    z-index: -1;
+
+    opacity: 0.06;
+
+    position: fixed;
 }
 
 .blue-navbar {
@@ -93,6 +108,10 @@ body {
 
 .footer-img {
     height: 3vh;
+}
+
+.footer-content {
+    width: 50%;
 }
 
 @media (max-height: 500px) {
@@ -186,6 +205,10 @@ body {
 
     .footer-bottom {
         display: block !important;
+    }
+
+    .footer-content {
+        width: 100%;
     }
 }
 
