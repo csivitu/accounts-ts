@@ -1,5 +1,5 @@
 import jsonwebtoken from 'jsonwebtoken';
-import {
+import OAuth2Server, {
     Client, User, Token, PasswordModel,
 } from 'oauth2-server';
 import bcrypt from 'bcrypt';
@@ -53,4 +53,9 @@ const passwordModel: PasswordModel = {
     },
 };
 
-export default passwordModel;
+const OauthServer = new OAuth2Server({
+    model: passwordModel,
+    accessTokenLifetime: 60 * 60,
+    allowBearerTokensInQueryString: true,
+});
+export default OauthServer;

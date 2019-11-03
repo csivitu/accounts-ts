@@ -8,6 +8,8 @@ export const constants = {
 
     home: 'homePage',
 
+    serverError: 'serverError',
+
     invalidEmail: 'invalidEmail',
     invalidMobile: 'invalidMobile',
     invalidPassword: 'invalidPassword',
