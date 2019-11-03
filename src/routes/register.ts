@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 import crypto from 'crypto';
 import hbs from 'express-handlebars';
 
-import { Participant, ParticipantInterface } from '../models/participant.model';
+import { User, UserInterface } from '../models/user.model';
 
 import { constants } from '../tools/constants';
 import {
@@ -23,7 +23,7 @@ const hb = hbs.create({
 
 export const router = express.Router();
 
-const sendVerificationMail = async (participant: ParticipantInterface) => {
+const sendVerificationMail = async (participant: UserInterface) => {
     const verifyLink = new URL(process.env.VERIFY_LINK);
     verifyLink.search = `?token=${participant.emailVerificationToken}`;
     const renderedHtml = await hb.render('../templates/verify.hbs', {
@@ -39,7 +39,7 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-    const participant = new Participant({
+    const participant = new User({
         name: req.body.name,
         email: req.body.email,
         mobile: req.body.mobile,
@@ -103,7 +103,7 @@ router.post('/', async (req, res) => {
 });
 
 router.post('/verify', async (req, res) => {
-    const participant = await Participant.findOneAndUpdate({
+    const participant = await User.findOneAndUpdate({
         emailVerificationToken: req.body.emailVerificationToken,
     }, {
         verificationStatus: true,

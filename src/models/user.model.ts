@@ -1,7 +1,11 @@
 import mongoose, { Model } from 'mongoose';
 
-const participantSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
     name: {
+        type: String,
+        required: true,
+    },
+    username: {
         type: String,
         required: true,
         index: true,
@@ -44,8 +48,9 @@ const participantSchema = new mongoose.Schema({
     },
 });
 
-export interface ParticipantInterface extends mongoose.Document {
+export interface UserInterface extends mongoose.Document {
     name: string;
+    username: string;
     email: string;
     mobile: string;
     password: string;
@@ -56,5 +61,5 @@ export interface ParticipantInterface extends mongoose.Document {
     passwordResetToken: string;
 }
 
-export const Participant: Model<ParticipantInterface> = mongoose.model('Participant', participantSchema);
-export default Participant;
+export const User: Model<UserInterface> = mongoose.model('Participant', userSchema);
+export default User;

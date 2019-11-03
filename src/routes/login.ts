@@ -1,7 +1,7 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
 
-import { Participant } from '../models/participant.model';
+import { User } from '../models/user.model';
 import { constants } from '../tools/constants';
 
 export const router = express.Router();
@@ -24,7 +24,7 @@ router.post('/', async (req, res) => {
         return;
     }
 
-    const participant = await Participant.findOne({
+    const participant = await User.findOne({
         email,
     });
 

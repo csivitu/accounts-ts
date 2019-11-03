@@ -1,34 +1,33 @@
 import mongoose, { Model } from 'mongoose';
+import { Token as oauth2Token } from 'oauth2-server';
 
 const tokenSchema = new mongoose.Schema({
     accessToken: {
         type: String,
-        required: true,
     },
     accessTokenExpiresAt: {
         type: Date,
-        required: true,
     },
     refreshToken: {
         type: String,
-        required: true,
     },
     refreshTokenExpiresAt: {
         type: Date,
+    },
+    scope: {
+        type: String,
+    },
+    client: {
+        type: Object,
         required: true,
     },
-    client: Object,
-    user: Object,
+    user: {
+        type: Object,
+        required: true,
+    },
 });
 
-export interface TokenInterface extends mongoose.Document {
-    accessToken: String,
-    accessTokenExpiresAt: Date,
-    refreshToken: String,
-    refreshTokenExpiresAt: Date,
-    client: Object,
-    user: Object
-}
+type tokenInterface = oauth2Token & mongoose.Document;
 
-export const Participant: Model<TokenInterface> = mongoose.model('Token', tokenSchema);
-export default Participant;
+export const Token: Model<tokenInterface> = mongoose.model('Token', tokenSchema);
+export default oauth2Token;
