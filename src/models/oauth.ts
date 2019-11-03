@@ -2,6 +2,7 @@ import jsonwebtoken from 'jsonwebtoken';
 import {
     Client, User, Token, PasswordModel,
 } from 'oauth2-server';
+import bcrypt from 'bcrypt';
 
 import { Client as clientModel } from './client.model';
 import { Token as TokenModel } from './token.model';
@@ -26,7 +27,13 @@ const passwordModel: PasswordModel = {
     getUser: async (
         username: String,
         password: String,
-    ) => userModel.findOne({ username, password }).exec(),
+    ) => {
+        const user = await userModel.findOne({ username, password }).exec();
+        if (await bcrypt.compare(password, user.password)) {
+            return user;
+        }
+        return false;
+    },
     saveToken: async (
         token: Token,
         _client: Client,
