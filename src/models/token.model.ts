@@ -30,4 +30,4 @@ const tokenSchema = new mongoose.Schema({
 type tokenInterface = oauth2Token & mongoose.Document;
 
 export const Token: Model<tokenInterface> = mongoose.model('Token', tokenSchema);
-export default oauth2Token;
+export default Token;

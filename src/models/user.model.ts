@@ -46,6 +46,9 @@ const userSchema = new mongoose.Schema({
     passwordResetToken: {
         type: String,
     },
+    scope: {
+        type: [String],
+    },
 });
 
 export interface UserInterface extends mongoose.Document {
@@ -59,6 +62,7 @@ export interface UserInterface extends mongoose.Document {
     emailVerificationToken: string;
     verificationStatus: string;
     passwordResetToken: string;
+    scope: string[];
 }
 
 export const User: Model<UserInterface> = mongoose.model('Participant', userSchema);
