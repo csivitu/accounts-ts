@@ -6,10 +6,6 @@ const clientSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    clientId: {
-        type: String,
-        required: true,
-    },
     clientSecret: {
         type: String,
         required: true,
