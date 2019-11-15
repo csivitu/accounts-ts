@@ -7,5 +7,4 @@ import { Client } from '../models/client.model';
 
 const main = async () => {
     await connectMongo();
-
 };

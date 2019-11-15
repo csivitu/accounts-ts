@@ -1,5 +1,4 @@
-import mongoose, { Model } from 'mongoose';
-import { Token as oauth2Token } from 'oauth2-server';
+import mongoose, { Model, Mongoose } from 'mongoose';
 
 const tokenSchema = new mongoose.Schema({
     accessToken: {
@@ -8,26 +7,16 @@ const tokenSchema = new mongoose.Schema({
     accessTokenExpiresAt: {
         type: Date,
     },
-    refreshToken: {
-        type: String,
-    },
-    refreshTokenExpiresAt: {
-        type: Date,
-    },
     scope: {
         type: String,
     },
-    client: {
-        type: Object,
-        required: true,
-    },
-    user: {
-        type: Object,
-        required: true,
-    },
 });
 
-type tokenInterface = oauth2Token & mongoose.Document;
+export interface TokenInterface extends mongoose.Document {
+    accessToken: String,
+    type: Date,
+    scope: String
+}
 
-export const Token: Model<tokenInterface> = mongoose.model('Token', tokenSchema);
+export const Token: Model<TokenInterface> = mongoose.model('Token', tokenSchema);
 export default Token;

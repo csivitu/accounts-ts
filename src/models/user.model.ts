@@ -36,11 +36,9 @@ const userSchema = new mongoose.Schema({
     },
     emailVerificationToken: {
         type: String,
-        required: true,
     },
     verificationStatus: {
         type: String,
-        required: true,
         default: false,
     },
     passwordResetToken: {
@@ -48,6 +46,7 @@ const userSchema = new mongoose.Schema({
     },
     scope: {
         type: [String],
+        required: true
     },
 });
 
