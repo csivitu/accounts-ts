@@ -18,7 +18,7 @@ class InputField {
         this.element = $(`input[name="${name}"]`);
         this.regex = regex;
         this.message = message;
-        this.errorElem = $(`<div class="input-group-append" data-container="form" data-toggle="popover" data-placement="right" data-content="${this.message}">
+        this.errorElem = $(`<div class="input-group-append" data-container="form" data-toggle="popover" data-placement="top" data-content="${this.message}">
                                 <div class="input-group-text"><i class="fas fa-exclamation-circle"></i></div>
                             </div>`);
         $('body').append(this.popperElem);
