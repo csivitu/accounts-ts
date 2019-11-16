@@ -17,7 +17,8 @@ const clientSchema = new mongoose.Schema({
 
 export interface ClientInterface extends mongoose.Document {
     clientId: String,
-    redirectUris: Array<String>
+    redirectUris: Array<String>,
+    clientName: String,
 }
 
 export const Client: Model<ClientInterface> = mongoose.model('Client', clientSchema);

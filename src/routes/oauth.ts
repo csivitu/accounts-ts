@@ -24,6 +24,7 @@ router.get('/authorize', async (req, res) => {
     }
 
     req.session.clientId = clientId;
+    req.session.clientName = client.clientName;
     req.session.state = state;
     req.session.redirectUri = redirectUrl;
 
