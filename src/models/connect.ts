@@ -5,7 +5,7 @@ import createDummyData from '../test/dummyData';
 mongoose.Promise = global.Promise;
 
 export async function connectMongo() {
-    await mongoose.connect(`${process.env.MONGO_URL}/${process.env.DB_NAME}`, {
+    await mongoose.connect(`${process.env.MONGO_URL}/${process.env.DB_NAME}?retryWrites=true&w=majority`, {
         useNewUrlParser: true,
         useCreateIndex: true,
     });
