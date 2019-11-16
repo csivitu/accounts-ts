@@ -74,6 +74,10 @@ body {
     color: #11355c;
 }
 
+.submit-failure {
+    display: none;
+}
+
 .login-form-1 .form-control {
     border: 0;
     margin-top: 2%;
