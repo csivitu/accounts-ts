@@ -37,30 +37,32 @@ function notify() {
     $('.card-body').replaceWith(message);
 }
 
-$('#login-form').submit(() => {
-    $.ajax({
-        url: 'users.php',
-        dataType: 'json',
-        type: 'post',
-        contentType: 'application/json',
-        data: JSON.stringify({
-            username: $('input[name="name"]').val(),
-            password: $('input[name="password"]').val(),
-        }),
-    })
-        .done((response) => {
-            console.log(response);
-            if (response.success) {
-                if (response.redirect !== '') {
-                    window.location.href = response.redirect;
-                } else {
-                    window.location.href = '/';
-                }
-            } else {
-                $('.submit-failure').show();
-            }
+$(() => {
+    $('#login-form').submit((event) => {
+        event.preventDefault();
+        $.ajax({
+            url: '/auth/login',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                username: $('input[name="username"]').val(),
+                password: $('input[name="password"]').val(),
+            }),
         })
-        .fail(() => {
-            $('.submit-failure').html('An unknown error has occured.').show();
-        });
+            .done((response) => {
+                console.log(response);
+                if (response.success) {
+                    if (response.redirect !== '') {
+                        window.location.href = response.redirect;
+                    } else {
+                        window.location.href = '/';
+                    }
+                } else {
+                    $('.submit-failure').show();
+                }
+            })
+            .fail(() => {
+                $('.submit-failure').html('An unknown error has occured.').show();
+            });
+    });
 });
