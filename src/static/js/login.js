@@ -50,7 +50,6 @@ $(() => {
             }),
         })
             .done((response) => {
-                console.log(response);
                 if (response.success) {
                     if (response.redirect !== '') {
                         window.location.href = response.redirect;

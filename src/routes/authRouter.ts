@@ -175,13 +175,11 @@ router.post('/login', async (req, res) => {
     }
 
     if (req.session.clientId && jsonResponse.success) {
-        jsonResponse.redirect = url.format({
-            href: req.session.redirectUri,
-            query: {
-                token: generateToken(participant),
-                state: req.session.state,
-            },
-        });
+        const redirectUri = new url.URL(req.session.redirectUri);
+        redirectUri.searchParams.append('token', generateToken(participant));
+        redirectUri.searchParams.append('state', req.session.state);
+        jsonResponse.redirect = redirectUri.href;
+
         req.session.clientId = undefined;
         req.session.redirectUri = undefined;
         req.session.state = undefined;
