@@ -30,7 +30,9 @@ class InputField {
         });
 
         this.errorElem.hide();
-        this.element.on('input', () => { this.validate(); });
+        this.element.on('input', () => {
+            this.validate();
+        });
     }
 
     validate() {
@@ -39,6 +41,10 @@ class InputField {
                 this.regex = regexes.vitEmailRegex;
             } else {
                 this.regex = regexes.emailRegex;
+            }
+        } else if (this.name === 'regNo') {
+            if (!isChecked($('#lg_vitian'))) {
+                return true;
             }
         }
         if (!this.regex.test(this.element.val())) {
@@ -75,6 +81,14 @@ $(() => {
     const fieldObjs = {};
     fields.forEach((field) => {
         fieldObjs[field.name] = new InputField(field.name, field.regex, field.message);
+    });
+
+    $('#login-form').submit(() => {
+        const keys = Object.keys(fieldObjs);
+        for (let i = 0; i < keys.length; i += 1) {
+            if (!fieldObjs[keys[i]].validate()) return false;
+        }
+        return true;
     });
 
     $('#lg_vitian').change((event) => {
