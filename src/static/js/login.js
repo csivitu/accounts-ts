@@ -2,7 +2,7 @@
 function replaceForm() {
     const passwordResetForm = `<form id="login-form" class="login-form-1" method="POST" action="/forgotPassword" onsubmit="notify()">
 
-                                    <div class="form-group py-1">
+                                    <div class="input-group py-1">
                                         <label for="lg_email" class="sr-only">Email</label>
                                         <input type="text" class="form-control" id="lg_email" name="email"
                                             placeholder="Email" maxlength="190" required>
@@ -13,7 +13,7 @@ function replaceForm() {
                                     </div>
 
                                     <div class="text-center form-message mt-3">
-                                        Haven't been here before? <a href="/register">Sign up</a>.
+                                        Haven't been here before? <a href="/auth/register">Sign up</a>.
                                     </div>
                                 </form>`;
 
