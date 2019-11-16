@@ -66,4 +66,4 @@ app.use('/oauth', oauthRouter);
 app.use('/forgotPassword', forgotPasswordRouter);
 app.use('/', (req, res) => {
     res.redirect('/auth/login');
-})
+});
