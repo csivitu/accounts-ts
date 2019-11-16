@@ -23,6 +23,9 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
     </script>
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css"
+        integrity="sha256-+N4/V/SbAFiW1MPBCXnfnP9QSN3+Keu+NlB+0ev/YKQ=" crossorigin="anonymous" />
+
     <link rel="icon" href="/static/images/favicon.png">
 
     <title>Your CSI-VIT Account</title>
@@ -33,12 +36,13 @@
     <div class="backgroundImage"></div>
     <div class="container-fluid">
         {{> navbar}}
-       
+
         <div class="row main-row">
             <div class="col-md-5 col-xs-5 col-sm-5 m-auto d-flex justify-content-center">
                 <div class="left-column d-flex flex-column justify-content-around">
                     <div>
-                        <a href="https://csivit.com"><img class="img-fluid logo" alt="Responsive image" src="/static/images/CSIDark.png"></a>
+                        <a href="https://csivit.com"><img class="img-fluid logo" alt="Responsive image"
+                                src="/static/images/CSIDark.png"></a>
                     </div>
                     <div class="title text-wrap font-weight-bold">
                         ONE ACCOUNT,<br>
@@ -58,25 +62,25 @@
                     <div class="card-body px-5 py-0">
                         <form id="login-form" class="login-form-1" method="POST" action="/auth/register">
 
-                            <div class="form-group">
-                                <label for="lg_name" class="sr-only">Name</label>
+                            <label for="lg_name" class="sr-only">Name</label>
+                            <div class="input-group">
                                 <input type="text" class="form-control" id="lg_name" name="name" placeholder="Name"
                                     maxlength="100" required>
                             </div>
 
-                            <div class="form-group py-1">
+                            <div class="input-group py-1">
                                 <label for="lg_username" class="sr-only">Username</label>
                                 <input type="text" class="form-control" id="lg_username" name="username"
                                     placeholder="Username" maxlength="70" required>
                             </div>
 
-                            <div class="form-group py-1">
+                            <div class="input-group py-1">
                                 <label for="lg_password" class="sr-only">Password</label>
                                 <input type="password" class="form-control" id="lg_password" name="password"
                                     placeholder="Password" maxlength="70" required>
                             </div>
 
-                            <div class="form-group py-1">
+                            <div class="input-group py-1">
                                 <label for="lg_phone" class="sr-only">Phone</label>
                                 <input type="text" class="form-control" id="lg_phone" name="mobile"
                                     placeholder="Phone Number" maxlength="20" required>
@@ -84,20 +88,22 @@
 
                             <div class="form-control vit-student">
                                 <input type="checkbox" class="mr-2" id="lg_vitian" name="isVitian" placeholder=""
-                                    maxlength="70" value='true' checked>
-                                    I am a VIT Student
+                                    maxlength="70" value="true" checked>
+                                I am a VIT Student
                             </div>
 
-                            <div class="form-group py-1 hide-group">
+                            <div class="input-group py-1 hide-group">
                                 <label for="lg_regno" class="sr-only">Registration Number</label>
                                 <input type="text" class="form-control" id="lg_regno" name="regNo"
                                     placeholder="Registration Number" maxlength="70">
+
                             </div>
 
-                            <div class="form-group py-1">
+                            <div class="input-group py-1">
                                 <label for="lg_email" class="sr-only">Email- ID</label>
                                 <input type="text" class="form-control" id="lg_email" name="email"
                                     placeholder="VIT Email-ID" maxlength="180" required>
+
                             </div>
 
                             <div class="form-check form-control">Gender

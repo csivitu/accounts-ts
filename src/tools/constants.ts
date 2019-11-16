@@ -4,6 +4,7 @@ export const constants = {
     mobileRegex: /^[6-9]\d{8,9}$/, // 9-10 characters
     passwordRegex: /^[a-zA-Z0-9`!@#$%^&*()-/:'.,{}"~]{8,16}$/, // 8-16 characters,
     regNoRegex: /^\d\d[A-Z]{3}[0-9]{4}$/,
+    usernameRegex: /^[a-zA-Z0-9`!@#$%^&*()-/:'.,{}"~]{3,20}$/,
 
     defaultResponse: 'defaultResponse',
 
@@ -11,6 +12,7 @@ export const constants = {
 
     serverError: 'serverError',
 
+    invalidUsername: 'invalidUsername',
     invalidEmail: 'invalidEmail',
     invalidMobile: 'invalidMobile',
     invalidPassword: 'invalidPassword',
