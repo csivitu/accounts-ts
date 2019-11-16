@@ -86,7 +86,10 @@ $(() => {
     $('#login-form').submit(() => {
         const keys = Object.keys(fieldObjs);
         for (let i = 0; i < keys.length; i += 1) {
-            if (!fieldObjs[keys[i]].validate()) return false;
+            if (!fieldObjs[keys[i]].validate()) {
+                $('.submit-failure').show();
+                return false;
+            }
         }
         return true;
     });
