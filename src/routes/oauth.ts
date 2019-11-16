@@ -7,7 +7,7 @@ export const router = express.Router();
 router.get('/authorize', async (req, res) => {
     const { clientId, state, redirectUrl } = req.query;
 
-    if (!clientId || !state || redirectUrl) {
+    if (!clientId || !state || !redirectUrl) {
         return res.status(400).json({
             success: false,
             message: constants.serverError,
@@ -15,7 +15,6 @@ router.get('/authorize', async (req, res) => {
     }
 
     const client = await Client.findOne({ clientId });
-
     // Client not found/Redirect URI not valid
     if (!client || client.redirectUris.indexOf(redirectUrl) < 0) {
         return res.status(400).json({
@@ -26,7 +25,7 @@ router.get('/authorize', async (req, res) => {
 
     req.session.clientId = clientId;
     req.session.state = state;
-    req.session.redirectUrl = redirectUrl;
+    req.session.redirectUri = redirectUrl;
 
     return res.redirect('/auth/login');
 });

@@ -9,7 +9,10 @@ const clientSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    redirectUris: [String],
+    redirectUris: {
+        type: [String],
+        required: true,
+    },
 });
 
 export interface ClientInterface extends mongoose.Document {

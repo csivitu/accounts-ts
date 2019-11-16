@@ -39,6 +39,7 @@ router.get('/register', async (req, res) => {
 
 router.post('/register', async (req, res) => {
     const participant = new User({
+        username: req.body.username,
         name: req.body.name,
         email: req.body.email,
         mobile: req.body.mobile,
@@ -87,6 +88,8 @@ router.post('/register', async (req, res) => {
     }
     const saltRounds = 10;
 
+    console.log(req.body.password);
+    console.log(saltRounds);
     participant.password = await bcrypt.hash(req.body.password, saltRounds);
     participant.emailVerificationToken = (await crypto.randomBytes(32)).toString('hex');
     participant.passwordResetToken = (await crypto.randomBytes(32)).toString('hex');
@@ -133,16 +136,10 @@ router.post('/login', async (req, res) => {
         message: constants.defaultResponse,
     };
 
-    const { email, password } = req.body;
-
-    if (email.length > 320 || password.length > 16) {
-        jsonResponse.success = false;
-        jsonResponse.message = constants.maxFieldLengthExceeded;
-        return;
-    }
+    const { username, password } = req.body;
 
     const participant = await User.findOne({
-        email,
+        username,
     });
 
     if (!participant) {
@@ -154,8 +151,6 @@ router.post('/login', async (req, res) => {
     }
 
     if (await bcrypt.compare(password, participant.password)) {
-        req.session.email = email;
-
         jsonResponse.success = true;
         jsonResponse.message = constants.loginSuccess;
     } else {
@@ -163,7 +158,7 @@ router.post('/login', async (req, res) => {
         jsonResponse.message = constants.incorrectPassword;
     }
 
-    if (req.session.clientId) {
+    if (req.session.clientId && jsonResponse.success) {
         res.redirect(url.format({
             href: req.session.redirectUri,
             query: {
@@ -174,12 +169,13 @@ router.post('/login', async (req, res) => {
         req.session.clientId = undefined;
         req.session.redirectUri = undefined;
         req.session.state = undefined;
+    } else {
+        res.json(jsonResponse);
     }
-    res.json(jsonResponse);
 });
 
 router.use('/logout', async (req, res) => {
-    req.session.destroy(() => {});
+    req.session.destroy(() => { });
 
     res.json({
         success: true,

@@ -2,7 +2,7 @@ export const constants = {
     emailRegex: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((vitstudent.ac.in)|(vit.ac.in))$/,
     mobileRegex: /^[6-9]\d{8,9}$/, // 9-10 characters
     passwordRegex: /^[a-zA-Z0-9`!@#$%^&*()-/:'.,{}"~]{8,16}$/, // 8-16 characters,
-    regNoRegex: /^19[A-Z]{3}[0-9]{4}$/,
+    regNoRegex: /^\d\d[A-Z]{3}[0-9]{4}$/,
 
     defaultResponse: 'defaultResponse',
 
