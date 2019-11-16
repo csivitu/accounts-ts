@@ -53,11 +53,11 @@ function setupDotEnv(cb) {
         for (const key in dotenvConfig) {
             data += `${key}=${dotenvConfig[key]}\n`;
         }
-        fs.writeFile('dist/.env', data, cb);
+        fs.writeFile('./.env', data, cb);
     } else {
         return src('sample.env')
             .pipe(rename('.env'))
-            .pipe(dest('dist'));
+            .pipe(dest('.'));
     }
 }
 
