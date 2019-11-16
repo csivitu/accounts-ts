@@ -149,6 +149,7 @@ router.post('/login', async (req, res) => {
     const jsonResponse = {
         success: false,
         message: constants.defaultResponse,
+        redirect: '',
     };
 
     const { username, password } = req.body;
@@ -174,19 +175,18 @@ router.post('/login', async (req, res) => {
     }
 
     if (req.session.clientId && jsonResponse.success) {
-        res.redirect(url.format({
+        jsonResponse.redirect = url.format({
             href: req.session.redirectUri,
             query: {
                 token: generateToken(participant),
                 state: req.session.state,
             },
-        }));
+        });
         req.session.clientId = undefined;
         req.session.redirectUri = undefined;
         req.session.state = undefined;
-    } else {
-        res.json(jsonResponse);
     }
+    res.json(jsonResponse);
 });
 
 router.use('/logout', async (req, res) => {
