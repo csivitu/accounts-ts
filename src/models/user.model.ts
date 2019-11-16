@@ -9,6 +9,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         index: true,
+        unique: true,
     },
     email: {
         type: String,
@@ -19,7 +20,6 @@ const userSchema = new mongoose.Schema({
     mobile: {
         type: Number,
         required: true,
-        unique: true,
     },
     password: {
         type: String,
@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema({
     },
     regNo: {
         type: String,
-        required: true,
+        unique: true,
     },
     gender: {
         type: String,
@@ -36,13 +36,16 @@ const userSchema = new mongoose.Schema({
     },
     emailVerificationToken: {
         type: String,
+        required: true,
     },
     verificationStatus: {
         type: String,
         default: false,
+        required: true,
     },
     passwordResetToken: {
         type: String,
+        required: true,
     },
     scope: {
         type: [String],
