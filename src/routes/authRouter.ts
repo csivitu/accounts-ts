@@ -2,9 +2,9 @@ import express from 'express';
 import bcrypt from 'bcrypt';
 import crypto from 'crypto';
 import hbs from 'express-handlebars';
+import url from 'url';
 
-import { Participant, ParticipantInterface } from '../models/participant.model';
-
+import { User, UserInterface } from '../models/user.model';
 import { constants } from '../tools/constants';
 import {
     verifyEmail,
@@ -12,18 +12,17 @@ import {
     verifyPassword,
     verifyRegNo,
 } from '../tools/verify';
-import { sendMail } from '../tools/sendMail';
-
+import sendMail from '../tools/sendMail';
+import generateToken from '../tools/tokenGenerator';
 
 const hb = hbs.create({
     extname: '.hbs',
     partialsDir: '.',
 });
 
-
 export const router = express.Router();
 
-const sendVerificationMail = async (participant: ParticipantInterface) => {
+const sendVerificationMail = async (participant: UserInterface) => {
     const verifyLink = new URL(process.env.VERIFY_LINK);
     verifyLink.search = `?token=${participant.emailVerificationToken}`;
     const renderedHtml = await hb.render('../templates/verify.hbs', {
@@ -34,12 +33,13 @@ const sendVerificationMail = async (participant: ParticipantInterface) => {
         constants.sendVerificationMailSubject, renderedHtml);
 };
 
-router.get('/', async (req, res) => {
+router.get('/register', async (req, res) => {
     res.render('register');
 });
 
-router.post('/', async (req, res) => {
-    const participant = new Participant({
+router.post('/register', async (req, res) => {
+    const participant = new User({
+        username: req.body.username,
         name: req.body.name,
         email: req.body.email,
         mobile: req.body.mobile,
@@ -88,6 +88,8 @@ router.post('/', async (req, res) => {
     }
     const saltRounds = 10;
 
+    console.log(req.body.password);
+    console.log(saltRounds);
     participant.password = await bcrypt.hash(req.body.password, saltRounds);
     participant.emailVerificationToken = (await crypto.randomBytes(32)).toString('hex');
     participant.passwordResetToken = (await crypto.randomBytes(32)).toString('hex');
@@ -99,11 +101,12 @@ router.post('/', async (req, res) => {
     jsonResponse.success = true;
     jsonResponse.message = constants.registrationSuccess;
 
-    res.json(jsonResponse);
+    // res.json(jsonResponse);
+    res.redirect('/auth/login');
 });
 
 router.post('/verify', async (req, res) => {
-    const participant = await Participant.findOneAndUpdate({
+    const participant = await User.findOneAndUpdate({
         emailVerificationToken: req.body.emailVerificationToken,
     }, {
         verificationStatus: true,
@@ -120,6 +123,63 @@ router.post('/verify', async (req, res) => {
     res.json({
         success: true,
         message: constants.verificationSuccess,
+    });
+});
+
+router.get('/login', async (req, res) => {
+    res.render('login.html');
+});
+
+router.post('/login', async (req, res) => {
+    const jsonResponse = {
+        success: false,
+        message: constants.defaultResponse,
+    };
+
+    const { username, password } = req.body;
+
+    const participant = await User.findOne({
+        username,
+    });
+
+    if (!participant) {
+        jsonResponse.success = false;
+        jsonResponse.message = constants.participantNotFound;
+        res.json(jsonResponse);
+
+        return;
+    }
+
+    if (await bcrypt.compare(password, participant.password)) {
+        jsonResponse.success = true;
+        jsonResponse.message = constants.loginSuccess;
+    } else {
+        jsonResponse.success = false;
+        jsonResponse.message = constants.incorrectPassword;
+    }
+
+    if (req.session.clientId && jsonResponse.success) {
+        res.redirect(url.format({
+            href: req.session.redirectUri,
+            query: {
+                token: generateToken(participant),
+                state: req.session.state,
+            },
+        }));
+        req.session.clientId = undefined;
+        req.session.redirectUri = undefined;
+        req.session.state = undefined;
+    } else {
+        res.json(jsonResponse);
+    }
+});
+
+router.use('/logout', async (req, res) => {
+    req.session.destroy(() => { });
+
+    res.json({
+        success: true,
+        message: constants.logoutSuccess,
     });
 });
 

@@ -1,4 +1,6 @@
 import mongoose from 'mongoose';
+import User from './user.model';
+import createDummyData from '../test/dummyData';
 
 mongoose.Promise = global.Promise;
 

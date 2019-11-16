@@ -6,7 +6,7 @@
   "scripts": {
     "start": "ts-node-dev --respawn --transpileOnly src/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint 'src/**/*.{ts,js,jsx}'",
+    "lint": "eslint \"src/**/*.{ts,js,jsx}\"",
     "build": "tsc && cp -r src/templates dist/ && cp -r src/static dist/"
   },
   "author": "",
@@ -19,7 +19,9 @@
     "express": "^4.17.1",
     "express-handlebars": "^3.1.0",
     "express-session": "^1.16.1",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.5.5",
+    "oauth2-server": "^3.0.1",
     "sendgrid": "^5.2.3"
   },
   "devDependencies": {
@@ -28,8 +30,10 @@
     "@types/express": "^4.17.1",
     "@types/express-handlebars": "0.0.33",
     "@types/express-session": "^1.15.15",
+    "@types/jsonwebtoken": "^8.3.5",
     "@types/mongoose": "^5.5.23",
     "@types/node": "^12.11.7",
+    "@types/oauth2-server": "^3.0.12",
     "@typescript-eslint/eslint-plugin": "^2.6.0",
     "@typescript-eslint/parser": "^2.6.0",
     "eslint": "^6.6.0",

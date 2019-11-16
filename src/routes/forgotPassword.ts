@@ -2,7 +2,7 @@ import express from 'express';
 import crypto from 'crypto';
 import hbs from 'express-handlebars';
 
-import { Participant, ParticipantInterface } from '../models/participant.model';
+import { User, UserInterface } from '../models/user.model';
 import { constants } from '../tools/constants';
 import { sendMail } from '../tools/sendMail';
 
@@ -13,7 +13,7 @@ const hb = hbs.create({
 
 export const router = express.Router();
 
-const sendResetMail = async (participant: ParticipantInterface) => {
+const sendResetMail = async (participant: UserInterface) => {
     const resetLink = new URL(process.env.RESET_LINK);
     resetLink.search = `token=${participant.passwordResetToken}`;
 
@@ -23,7 +23,7 @@ const sendResetMail = async (participant: ParticipantInterface) => {
 };
 
 router.post('/forgotPassword', async (req, res) => {
-    const participant = await Participant.findOne({
+    const participant = await User.findOne({
         email: req.body.email,
     });
 
@@ -47,7 +47,7 @@ router.post('/forgotPassword', async (req, res) => {
 router.post('/resetPassword', async (req, res) => {
     const passwordResetToken = (await crypto.randomBytes(32)).toString('hex');
 
-    const participant = await Participant.findOneAndUpdate({
+    const participant = await User.findOneAndUpdate({
         passwordResetToken: req.body.token,
     }, {
         passwordResetToken,
