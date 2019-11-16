@@ -73,7 +73,7 @@
                 <div class="reg-card ml-5 card p-3">
                     <div class="card-title"><strong>REGISTER</strong></div>
                     <div class="card-body px-5 py-0">
-                        <form id="login-form" class="login-form-1" method="GET" action="/register">
+                        <form id="login-form" class="login-form-1" method="POST" action="/auth/register">
 
                             <div class="form-group">
                                 <label for="lg_name" class="sr-only">Name</label>
@@ -95,19 +95,19 @@
 
                             <div class="form-group py-1">
                                 <label for="lg_phone" class="sr-only">Phone</label>
-                                <input type="text" class="form-control" id="lg_phone" name="phone"
+                                <input type="text" class="form-control" id="lg_phone" name="mobile"
                                     placeholder="Phone Number" maxlength="20" required>
                             </div>
 
                             <div class="form-control vit-student">
-                                <input type="checkbox" class="mr-2" id="lg_vitian" name="isvitian" placeholder=""
+                                <input type="checkbox" class="mr-2" id="lg_vitian" name="isVitian" placeholder=""
                                     maxlength="70" checked>
                                     I am a VIT Student
                             </div>
 
                             <div class="form-group py-1 hide-group">
                                 <label for="lg_regno" class="sr-only">Registration Number</label>
-                                <input type="text" class="form-control" id="lg_regno" name="regno"
+                                <input type="text" class="form-control" id="lg_regno" name="regNo"
                                     placeholder="Registration Number" maxlength="70">
                             </div>
 

@@ -1,7 +1,11 @@
 import mongoose, { Model } from 'mongoose';
 
-const participantSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
     name: {
+        type: String,
+        required: true,
+    },
+    username: {
         type: String,
         required: true,
         index: true,
@@ -32,20 +36,23 @@ const participantSchema = new mongoose.Schema({
     },
     emailVerificationToken: {
         type: String,
-        required: true,
     },
     verificationStatus: {
         type: String,
-        required: true,
         default: false,
     },
     passwordResetToken: {
         type: String,
     },
+    scope: {
+        type: [String],
+        required: true,
+    },
 });
 
-export interface ParticipantInterface extends mongoose.Document {
+export interface UserInterface extends mongoose.Document {
     name: string;
+    username: string;
     email: string;
     mobile: string;
     password: string;
@@ -54,7 +61,8 @@ export interface ParticipantInterface extends mongoose.Document {
     emailVerificationToken: string;
     verificationStatus: string;
     passwordResetToken: string;
+    scope: string[];
 }
 
-export const Participant: Model<ParticipantInterface> = mongoose.model('Participant', participantSchema);
-export default Participant;
+export const User: Model<UserInterface> = mongoose.model('User', userSchema);
+export default User;
