@@ -47,7 +47,7 @@ function ts() {
 }
 
 function setupDotEnv(cb) {
-    console.log(`NODE_ENV: ${process.NODE_ENV}`);
+    console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
     if (process.env.NODE_ENV == 'production') {
         let data = '';
         for (const key in dotenvConfig) {
