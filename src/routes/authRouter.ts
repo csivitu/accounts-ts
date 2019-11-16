@@ -7,10 +7,11 @@ import url from 'url';
 import { User, UserInterface } from '../models/user.model';
 import { constants } from '../tools/constants';
 import {
-    verifyEmail,
+    verifyVITEmail,
     verifyMobile,
     verifyPassword,
     verifyRegNo,
+    verifyEmail,
 } from '../tools/verify';
 import sendMail from '../tools/sendMail';
 import generateToken from '../tools/tokenGenerator';
@@ -23,11 +24,15 @@ const hb = hbs.create({
 export const router = express.Router();
 
 const sendVerificationMail = async (participant: UserInterface) => {
-    const verifyLink = new URL(process.env.VERIFY_LINK);
-    verifyLink.search = `?token=${participant.emailVerificationToken}`;
-    const renderedHtml = await hb.render('../templates/verify.hbs', {
+    const verifyLink = url.format({
+        href: process.env.VERIFY_LINK,
+        query: {
+            token: participant.emailVerificationToken,
+        },
+    });
+    const renderedHtml = await hb.render('src/templates/verify.hbs', {
         participant,
-        verifyLink: verifyLink.href,
+        verifyLink,
     });
     await sendMail(participant.name, participant.email,
         constants.sendVerificationMailSubject, renderedHtml);
@@ -38,7 +43,7 @@ router.get('/register', async (req, res) => {
 });
 
 router.post('/register', async (req, res) => {
-    const participant = new User({
+    const user = new User({
         username: req.body.username,
         name: req.body.name,
         email: req.body.email,
@@ -53,55 +58,60 @@ router.post('/register', async (req, res) => {
         message: constants.defaultResponse,
     };
 
-    if (!verifyEmail(participant.email)) {
-        jsonResponse.message = constants.invalidEmail;
-        res.json(jsonResponse);
-
-        return;
-    }
-
-    if (!verifyMobile(participant.mobile)) {
+    if (!verifyMobile(user.mobile)) {
         jsonResponse.message = constants.invalidMobile;
         res.json(jsonResponse);
-
         return;
     }
 
-    if (!verifyPassword(participant.password)) {
+    if (!verifyPassword(user.password)) {
         jsonResponse.message = constants.invalidPassword;
         res.json(jsonResponse);
-
         return;
     }
 
-    if (!verifyRegNo(participant.regNo)) {
-        jsonResponse.message = constants.invalidRegNo;
+    if (req.body.isVitian === 'true') {
+        if (!verifyRegNo(user.regNo)) {
+            jsonResponse.message = constants.invalidRegNo;
+            res.json(jsonResponse);
+            return;
+        }
+        if (!verifyVITEmail(user.email)) {
+            jsonResponse.message = constants.invalidEmail;
+            res.json(jsonResponse);
+            return;
+        }
+    } else if (!verifyEmail(user.email)) {
+        jsonResponse.message = constants.invalidEmail;
         res.json(jsonResponse);
-
         return;
     }
 
-    if (participant.email.length > 320 || participant.gender.length > 1) {
-        jsonResponse.success = false;
-        jsonResponse.message = constants.maxFieldLengthExceeded;
+    if (await User.findOne({
+        $or: [
+            { email: user.email }, { username: user.username }, { regNo: user.regNo },
+        ],
+    })) {
+        jsonResponse.message = constants.serverError;
+        res.json(jsonResponse);
         return;
     }
+
     const saltRounds = 10;
 
-    console.log(req.body.password);
-    console.log(saltRounds);
-    participant.password = await bcrypt.hash(req.body.password, saltRounds);
-    participant.emailVerificationToken = (await crypto.randomBytes(32)).toString('hex');
-    participant.passwordResetToken = (await crypto.randomBytes(32)).toString('hex');
+    user.password = await bcrypt.hash(req.body.password, saltRounds);
+    user.emailVerificationToken = (await crypto.randomBytes(32)).toString('hex');
+    user.passwordResetToken = (await crypto.randomBytes(32)).toString('hex');
+    user.scope = ['user'];
 
-    await participant.save();
 
-    sendVerificationMail(participant);
+    await user.save();
+
+    sendVerificationMail(user);
 
     jsonResponse.success = true;
     jsonResponse.message = constants.registrationSuccess;
 
-    // res.json(jsonResponse);
     res.redirect('/auth/login');
 });
 
@@ -144,7 +154,7 @@ router.post('/login', async (req, res) => {
 
     if (!participant) {
         jsonResponse.success = false;
-        jsonResponse.message = constants.participantNotFound;
+        jsonResponse.message = constants.incorrectDetails;
         res.json(jsonResponse);
 
         return;
@@ -155,7 +165,7 @@ router.post('/login', async (req, res) => {
         jsonResponse.message = constants.loginSuccess;
     } else {
         jsonResponse.success = false;
-        jsonResponse.message = constants.incorrectPassword;
+        jsonResponse.message = constants.incorrectDetails;
     }
 
     if (req.session.clientId && jsonResponse.success) {

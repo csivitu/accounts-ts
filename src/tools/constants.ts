@@ -1,5 +1,6 @@
 export const constants = {
-    emailRegex: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((vitstudent.ac.in)|(vit.ac.in))$/,
+    vitEmailRegex: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((vitstudent.ac.in)|(vit.ac.in))$/,
+    emailRegex: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
     mobileRegex: /^[6-9]\d{8,9}$/, // 9-10 characters
     passwordRegex: /^[a-zA-Z0-9`!@#$%^&*()-/:'.,{}"~]{8,16}$/, // 8-16 characters,
     regNoRegex: /^\d\d[A-Z]{3}[0-9]{4}$/,
@@ -14,7 +15,7 @@ export const constants = {
     invalidMobile: 'invalidMobile',
     invalidPassword: 'invalidPassword',
     invalidRegNo: 'invalidRegNo',
-    incorrectPassword: 'incorrectPassword',
+    incorrectDetails: 'incorrectDetails',
 
     participantNotFound: 'participantNotFound',
     loginSuccess: 'loginSuccess',
