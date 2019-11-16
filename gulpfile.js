@@ -17,7 +17,8 @@ const dotenvConfig = {
     VERIFY_LINK: process.env.VERIFY_LINK,
     MONGO_URL: process.env.MONGO_URL,
     JWT_SECRET: process.env.JWT_SECRET,
-    JWT_EXPIRY: process.env.JWT_EXPIRY
+    JWT_EXPIRY: process.env.JWT_EXPIRY,
+    DB_NAME: process.env.DB_NAME,
 }
 
 function templates() {
@@ -53,11 +54,11 @@ function setupDotEnv(cb) {
         for (const key in dotenvConfig) {
             data += `${key}=${dotenvConfig[key]}\n`;
         }
-        fs.writeFile('dist/.env', data, cb);
+        fs.writeFile('./.env', data, cb);
     } else {
         return src('sample.env')
             .pipe(rename('.env'))
-            .pipe(dest('dist'));
+            .pipe(dest('.'));
     }
 }
 

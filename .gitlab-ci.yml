@@ -38,7 +38,8 @@ deploy:
   stage: deploy
   script:
     - NODE_ENV=production npm run build
-    - rsync -avuz --exclude=".*" $CI_PROJECT_DIR/* $SERVER_USER@$SERVER_DOMAIN:~/$PROJECT_NAME
+    - shopt -s dotglob
+    - rsync -avuz $CI_PROJECT_DIR/* $SERVER_USER@$SERVER_DOMAIN:~/$PROJECT_NAME
   only:
     # Trigger deployments only from master branch
     - master
