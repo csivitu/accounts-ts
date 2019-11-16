@@ -12,6 +12,7 @@ import {
     verifyPassword,
     verifyRegNo,
     verifyEmail,
+    verifyUsername,
 } from '../tools/verify';
 import sendMail from '../tools/sendMail';
 import generateToken from '../tools/tokenGenerator';
@@ -57,6 +58,10 @@ router.post('/register', async (req, res) => {
         success: false,
         message: constants.defaultResponse,
     };
+
+    if (!verifyUsername(user.username)) {
+        jsonResponse.message = constants.invalidUsername;
+    }
 
     if (!verifyMobile(user.mobile)) {
         jsonResponse.message = constants.invalidMobile;
