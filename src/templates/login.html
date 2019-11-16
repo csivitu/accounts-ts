@@ -38,7 +38,8 @@
             <div class="col-md-5 col-xs-5 col-sm-5 m-auto d-flex justify-content-center">
                 <div class="left-column d-flex flex-column justify-content-around">
                     <div>
-                        <a href="https://csivit.com"><img class="img-fluid logo" alt="Responsive image" src="/static/images/CSIDark.png"></a>
+                        <a href="https://csivit.com"><img class="img-fluid logo" alt="Responsive image"
+                                src="/static/images/CSIDark.png"></a>
                     </div>
                     <div class="title text-wrap font-weight-bold">
                         ONE ACCOUNT,<br>
@@ -56,6 +57,9 @@
                 <div class="reg-card ml-5 card p-4">
                     <div class="card-title"><strong>LOGIN</strong></div>
                     <div class="card-body px-5">
+                        <div class="alert alert-danger submit-failure" role="alert">
+                            You entered an incorrect Username or Password.
+                        </div>
                         <form id="login-form" class="login-form-1" method="POST" action="/auth/login">
 
                             <div class="input-group py-1">

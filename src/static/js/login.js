@@ -36,3 +36,31 @@ function notify() {
     $('.card-title').replaceWith(cardTitle);
     $('.card-body').replaceWith(message);
 }
+
+$('#login-form').submit(() => {
+    $.ajax({
+        url: 'users.php',
+        dataType: 'json',
+        type: 'post',
+        contentType: 'application/json',
+        data: JSON.stringify({
+            username: $('input[name="name"]').val(),
+            password: $('input[name="password"]').val(),
+        }),
+    })
+        .done((response) => {
+            console.log(response);
+            if (response.success) {
+                if (response.redirect !== '') {
+                    window.location.href = response.redirect;
+                } else {
+                    window.location.href = '/';
+                }
+            } else {
+                $('.submit-failure').show();
+            }
+        })
+        .fail(() => {
+            $('.submit-failure').html('An unknown error has occured.').show();
+        });
+});
