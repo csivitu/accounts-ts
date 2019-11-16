@@ -142,7 +142,7 @@ router.post('/verify', async (req, res) => {
 });
 
 router.get('/login', async (req, res) => {
-    res.render('login.html', {clientName: req.session.clientName});
+    res.render('login.html', { clientName: req.session.clientName });
 });
 
 router.post('/login', async (req, res) => {
