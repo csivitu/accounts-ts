@@ -46,7 +46,7 @@ const userSchema = new mongoose.Schema({
     },
     scope: {
         type: [String],
-        required: true
+        required: true,
     },
 });
 

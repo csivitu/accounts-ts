@@ -3,7 +3,7 @@ import { Client as oauthClientInterface } from 'oauth2-server';
 
 const clientSchema = new mongoose.Schema({
     clientName: {
-        type: String
+        type: String,
     },
     clientId: {
         type: String,
