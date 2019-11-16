@@ -203,6 +203,10 @@ body {
         padding-top: 1vh;
     }
 
+    .submit-failure {
+        font-size: 1.8rem;
+    }
+
     .fa-exclamation-circle {
         font-size: 2rem;
     }
