@@ -178,4 +178,8 @@ $(() => {
             $('#lg_regno').removeAttr('required');
         }
     });
+
+    $('input[name="regNo"]').keyup((event) => {
+        $(event.currentTarget).val($(event.currentTarget).val().toUpperCase());
+    });
 });
