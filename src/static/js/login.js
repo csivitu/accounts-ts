@@ -56,8 +56,12 @@ $(() => {
                     } else {
                         window.location.href = '/';
                     }
-                } else {
+                } else if (!response.success && response.message === 'incorrectDetails') {
                     $('.submit-failure').show();
+                } else if (!response.success && response.message === 'recaptchaFailed') {
+                    $('.submit-failure').html('Google Recaptcha verification failed. Try again.').show();
+                } else {
+                    $('.submit-failure').html('An unknown error has occured.').show();
                 }
             })
             .fail(() => {
