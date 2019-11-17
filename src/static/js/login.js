@@ -56,9 +56,11 @@ function onSubmit(token) {
                     window.location.href = '/';
                 }
             } else if (!response.success && response.message === 'incorrectDetails') {
-                $('.submit-failure').show();
+                $('.submit-failure').html('You entered an incorrect Username or Password.').show();
             } else if (!response.success && response.message === 'recaptchaFailed') {
                 $('.submit-failure').html('Google Recaptcha verification failed. Try again.').show();
+            } else if (!response.success && response.message === 'notVerified') {
+                $('.submit-failure').html('Please verify your account using the verification link we sent to your registered email to login.').show();
             } else {
                 $('.submit-failure').html('An unknown error has occured.').show();
             }

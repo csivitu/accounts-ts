@@ -75,7 +75,7 @@ function onSubmit(token) {
     const keys = Object.keys(fieldObjs);
     for (let i = 0; i < keys.length; i += 1) {
         if (!fieldObjs[keys[i]].validate()) {
-            $('.submit-failure').show();
+            $('.submit-failure').html('Please correct the invalid fields.').show();
             return;
         }
     }
@@ -117,6 +117,8 @@ function onSubmit(token) {
                 $('.submit-failure').html(content).show();
             } else if (response.message === 'recaptchaFailed') {
                 $('.submit-failure').html('Google Recaptcha verification failed. Try again.').show();
+            } else {
+                $('.submit-failure').html('An unknown error has occured.').show();
             }
         })
         .fail(() => {

@@ -208,6 +208,14 @@ router.post('/login', async (req, res) => {
         jsonResponse.message = constants.incorrectDetails;
     }
 
+    if (participant.verificationStatus === 'false') {
+        jsonResponse.success = false;
+        jsonResponse.message = constants.notVerified;
+
+        res.json(jsonResponse);
+        return;
+    }
+
     if (req.session.clientId && jsonResponse.success) {
         const redirectUri = new url.URL(req.session.redirectUri);
         redirectUri.searchParams.append('token', generateToken(participant));
