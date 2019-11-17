@@ -115,6 +115,8 @@ function onSubmit(token) {
                 }
                 content += `${response.duplicates[i]} already exists.`;
                 $('.submit-failure').html(content).show();
+            } else if (response.message === 'recaptchaFailed') {
+                $('.submit-failure').html('Google Recaptcha verification failed. Try again.').show();
             }
         })
         .fail(() => {
