@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 import crypto from 'crypto';
 import hbs from 'express-handlebars';
 import url from 'url';
+import rp from 'request-promise';
 
 import { User, UserInterface } from '../models/user.model';
 import { constants } from '../tools/constants';
@@ -25,18 +26,27 @@ const hb = hbs.create({
 export const router = express.Router();
 
 const sendVerificationMail = async (participant: UserInterface) => {
-    const verifyLink = url.format({
-        href: process.env.VERIFY_LINK,
-        query: {
-            token: participant.emailVerificationToken,
-        },
-    });
+    const verifyLink = new url.URL(process.env.VERIFY_LINK);
+    verifyLink.searchParams.append('token', participant.emailVerificationToken);
     const renderedHtml = await hb.render('src/templates/verify.hbs', {
-        participant,
-        verifyLink,
+        name: participant.name,
+        verifyLink: verifyLink.href,
     });
     await sendMail(participant.name, participant.email,
         constants.sendVerificationMailSubject, renderedHtml);
+};
+
+const verifyRecaptcha = async (response: string) => {
+    const recaptcha = await rp({
+        method: 'POST',
+        uri: 'https://www.google.com/recaptcha/api/siteverify',
+        form: {
+            secret: process.env.RECAPTCHA_SECRET,
+            response,
+        },
+        json: true,
+    });
+    return recaptcha.success === true;
 };
 
 router.get('/register', async (req, res) => {
@@ -44,6 +54,17 @@ router.get('/register', async (req, res) => {
 });
 
 router.post('/register', async (req, res) => {
+    const jsonResponse = {
+        success: false,
+        message: constants.defaultResponse,
+        duplicates: [] as string[],
+    };
+    const recaptcha = await verifyRecaptcha(req.body.grecaptcha_token);
+    if (!recaptcha) {
+        jsonResponse.message = constants.recaptchaFailed;
+        res.json(jsonResponse);
+        return;
+    }
     const user = new User({
         username: req.body.username,
         name: req.body.name,
@@ -53,12 +74,6 @@ router.post('/register', async (req, res) => {
         regNo: req.body.regNo,
         gender: req.body.gender,
     });
-
-    const jsonResponse = {
-        success: false,
-        message: constants.defaultResponse,
-        duplicates: [] as string[],
-    };
 
     if (!verifyUsername(user.username)) {
         jsonResponse.message = constants.invalidUsername;
@@ -87,10 +102,13 @@ router.post('/register', async (req, res) => {
             res.json(jsonResponse);
             return;
         }
-    } else if (!verifyEmail(user.email)) {
-        jsonResponse.message = constants.invalidEmail;
-        res.json(jsonResponse);
-        return;
+    } else {
+        if (!verifyEmail(user.email)) {
+            jsonResponse.message = constants.invalidEmail;
+            res.json(jsonResponse);
+            return;
+        }
+        user.regNo = '';
     }
 
     const duplicate = await User.findOne({
@@ -164,6 +182,13 @@ router.post('/login', async (req, res) => {
         message: constants.defaultResponse,
         redirect: '',
     };
+
+    const recaptcha = await verifyRecaptcha(req.body.grecaptcha_token);
+    if (!recaptcha) {
+        jsonResponse.message = constants.recaptchaFailed;
+        res.json(jsonResponse);
+        return;
+    }
 
     const { username, password } = req.body;
 

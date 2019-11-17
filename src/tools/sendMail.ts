@@ -2,6 +2,8 @@ import sendgrid from 'sendgrid';
 
 import { constants } from './constants';
 
+require('dotenv').config();
+
 const {
     SENDGRID_API_KEY,
 } = process.env;
@@ -39,7 +41,12 @@ export const sendMail = async (name: string, email: string, subject: string, con
         },
     });
 
-    await Sendgrid.API(sgReq);
+    try {
+        await Sendgrid.API(sgReq);
+        console.log('Mail sent successfully');
+    } catch (e) {
+        console.log(e.response.body.errors);
+    }
 };
 
 export default sendMail;

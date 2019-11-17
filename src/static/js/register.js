@@ -69,6 +69,64 @@ function registrationSuccess(email) {
     $('.card-body').replaceWith(message);
 }
 
+const fieldObjs = {};
+
+function onSubmit(token) {
+    const keys = Object.keys(fieldObjs);
+    for (let i = 0; i < keys.length; i += 1) {
+        if (!fieldObjs[keys[i]].validate()) {
+            $('.submit-failure').show();
+            return;
+        }
+    }
+
+    const userEmail = $('input[name="email"]').val();
+
+    $.ajax({
+        url: '/auth/register',
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({
+            name: $('input[name="name"]').val(),
+            username: $('input[name="username"]').val(),
+            password: $('input[name="password"]').val(),
+            mobile: $('input[name="mobile"]').val(),
+            isVitian: $('input[name="isVitian"]')[0].checked,
+            regNo: $('input[name="regNo"]').val(),
+            email: userEmail,
+            gender: $('input[name="gender"]:checked').val(),
+            grecaptcha_token: token,
+        }),
+    })
+        .done((response) => {
+            if (response.success && response.message === 'registrationSuccess') {
+                registrationSuccess(userEmail);
+            } else if (response.message === 'duplicate') {
+                if (!response.duplicates) {
+                    $('.submit-failure').html('An unknown error has occured.').show();
+                    return;
+                }
+
+                let content = '';
+                let i = 0;
+
+                for (; i < response.duplicates.length - 1; i += 1) {
+                    content += `${response.duplicates[i]}, `;
+                }
+                content += `${response.duplicates[i]} already exists.`;
+                $('.submit-failure').html(content).show();
+            } else if (response.message === 'recaptchaFailed') {
+                $('.submit-failure').html('Google Recaptcha verification failed. Try again.').show();
+            }
+        })
+        .fail(() => {
+            $('.submit-failure').html('An unknown error has occured.').show();
+        });
+
+    // eslint-disable-next-line no-undef
+    grecaptcha.reset();
+}
+
 $(() => {
     const fields = [{
         name: 'email',
@@ -91,61 +149,15 @@ $(() => {
         regex: regexes.usernameRegex,
         message: 'Invalid Username. Username should contain atleast 3 characters.',
     }];
-    const fieldObjs = {};
+
     fields.forEach((field) => {
         fieldObjs[field.name] = new InputField(field.name, field.regex, field.message);
     });
 
-    $('#login-form').submit((event) => {
-        event.preventDefault();
-
-        const keys = Object.keys(fieldObjs);
-        for (let i = 0; i < keys.length; i += 1) {
-            if (!fieldObjs[keys[i]].validate()) {
-                $('.submit-failure').show();
-                return;
-            }
-        }
-
-        const userEmail = $('input[name="email"]').val();
-
-        $.ajax({
-            url: '/auth/register',
-            method: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify({
-                name: $('input[name="name"]').val(),
-                username: $('input[name="username"]').val(),
-                password: $('input[name="password"]').val(),
-                mobile: $('input[name="mobile"]').val(),
-                isVitian: $('input[name="isVitian"]')[0].checked,
-                regNo: $('input[name="regNo"]').val(),
-                email: userEmail,
-                gender: $('input[name="gender"]:checked').val(),
-            }),
-        })
-            .done((response) => {
-                if (response.success && response.message === 'registrationSuccess') {
-                    registrationSuccess(userEmail);
-                } else if (response.message === 'duplicate') {
-                    if (!response.duplicates) {
-                        $('.submit-failure').html('An unknown error has occured.').show();
-                        return;
-                    }
-
-                    let content = 'The following fields are duplicate: ';
-                    let i = 0;
-
-                    for (; i < response.duplicates.length - 1; i += 1) {
-                        content += `${response.duplicates[i]}, `;
-                    }
-                    content += `${response.duplicates[i]}.`;
-                    $('.submit-failure').html(content).show();
-                }
-            })
-            .fail(() => {
-                $('.submit-failure').html('An unknown error has occured.').show();
-            });
+    $('#login-form').submit(() => {
+        // eslint-disable-next-line no-undef
+        grecaptcha.execute();
+        return false;
     });
 
     $('#lg_vitian').change((event) => {
@@ -165,5 +177,9 @@ $(() => {
             $('.hide-group').slideUp();
             $('#lg_regno').removeAttr('required');
         }
+    });
+
+    $('input[name="regNo"]').keyup((event) => {
+        $(event.currentTarget).val($(event.currentTarget).val().toUpperCase());
     });
 });
