@@ -1,3 +1,7 @@
-# CCS-Backend
+# Accounts Website
 
-Backend For CCS Website
+CSI OAuth Account.
+
+- Login
+- Register
+- Reset Password

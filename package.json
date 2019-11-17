@@ -65,6 +65,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@gitlab.com:csivit/ccs/ccs-website/ccs-backend.git"
+    "url": "git@gitlab.com:csivit/accounts/backend.git"
   }
 }
