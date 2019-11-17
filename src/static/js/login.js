@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 function replaceForm() {
-    const passwordResetForm = `<form id="login-form" class="login-form-1" method="POST" action="/forgotPassword" onsubmit="notify()">
+    const passwordResetForm = `<form id="login-form" class="login-form-1" method="POST" onsubmit="return notify()">
 
                                     <div class="input-group py-1">
                                         <label for="lg_email" class="sr-only">Email</label>
@@ -25,16 +25,36 @@ function replaceForm() {
 // eslint-disable-next-line no-unused-vars
 function notify() {
     const email = $('#lg_email').val();
-    const message = `<div class="text-center form-message mt-3">
+    let message = '';
+    let cardTitle = '';
+    $.ajax({
+        url: '/recovery/forgotPassword',
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({
+            email: $('input[name="email"]').val(),
+        }),
+    })
+        .done((_response) => {
+            message = `<div class="text-center form-message mt-3">
                         We have emailed password-reset instructions to<br>
                         <a href="mailto:${email}" style="color: #0381ff; font-size: 2rem;">${email}</a>.<br><br>
                         Need help? <a href="mailto:askcsivit@gmail.com">Contact us</a>.
                     </div>`;
 
-    const cardTitle = '<div class="card-title"><strong>CHECK YOUR EMAIL</strong></div>';
+            cardTitle = '<div class="card-title"><strong>CHECK YOUR EMAIL</strong></div>';
+            $('.card-title').replaceWith(cardTitle);
+            $('.card-body').replaceWith(message);
+        }).fail(() => {
+            message = `<div class="text-center form-message mt-3">
+                        Server Error.
+                    </div>`;
 
-    $('.card-title').replaceWith(cardTitle);
-    $('.card-body').replaceWith(message);
+            cardTitle = '<div class="card-title"><strong>ERROR</strong></div>';
+            $('.card-title').replaceWith(cardTitle);
+            $('.card-body').replaceWith(message);
+        });
+    return false;
 }
 
 function onSubmit(token) {
@@ -56,9 +76,11 @@ function onSubmit(token) {
                     window.location.href = '/';
                 }
             } else if (!response.success && response.message === 'incorrectDetails') {
-                $('.submit-failure').show();
+                $('.submit-failure').html('You entered an incorrect Username or Password.').show();
             } else if (!response.success && response.message === 'recaptchaFailed') {
                 $('.submit-failure').html('Google Recaptcha verification failed. Try again.').show();
+            } else if (!response.success && response.message === 'notVerified') {
+                $('.submit-failure').html('Please verify your account using the verification link we sent to your registered email to login.').show();
             } else {
                 $('.submit-failure').html('An unknown error has occured.').show();
             }

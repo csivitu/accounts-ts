@@ -29,6 +29,8 @@ export const constants = {
     recaptchaFailed: 'recaptchaFailed',
 
     registrationSuccess: 'registrationSuccess',
+    notVerified: 'notVerified',
+    emailAlreadySent: 'emailAlreadySent',
 
     questionAdded: 'questionAdded',
     passwordResetMail: 'passwordResetMailSent',
@@ -38,8 +40,8 @@ export const constants = {
     senderEmail: 'tech@csivit.com',
     emailReplyTo: 'askcsivit.com',
 
-    sendResetMailSubject: 'Reset your CCS Password',
-    sendVerificationMailSubject: 'Verify your CCS Account',
+    sendResetMailSubject: 'Reset your CSI Account Password',
+    sendVerificationMailSubject: 'Verify your CSI Account',
     verificationSuccess: 'verificationSuccess',
 };
 

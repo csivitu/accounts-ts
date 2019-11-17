@@ -1,4 +1,3 @@
-
 const { src, dest, parallel, series } = require('gulp');
 const minifyCSS = require('gulp-csso');
 const uglify = require('gulp-uglify');
@@ -19,6 +18,7 @@ const dotenvConfig = {
     JWT_SECRET: process.env.JWT_SECRET,
     JWT_EXPIRY: process.env.JWT_EXPIRY,
     DB_NAME: process.env.ACCOUNTS_DB,
+    RECAPTCHA_SECRET: process.env.RECAPTCHA_SECRET,
 }
 
 function templates() {

@@ -137,7 +137,7 @@ router.post('/register', async (req, res) => {
 
     user.password = await bcrypt.hash(req.body.password, saltRounds);
     user.emailVerificationToken = (await crypto.randomBytes(32)).toString('hex');
-    user.passwordResetToken = (await crypto.randomBytes(32)).toString('hex');
+    user.passwordResetToken = 'default';
     user.scope = ['user'];
 
 
@@ -151,25 +151,21 @@ router.post('/register', async (req, res) => {
     res.json(jsonResponse);
 });
 
-router.post('/verify', async (req, res) => {
+router.get('/verify', async (req, res) => {
+    let verified = false;
     const participant = await User.findOneAndUpdate({
-        emailVerificationToken: req.body.emailVerificationToken,
+        emailVerificationToken: req.query.token,
     }, {
         verificationStatus: true,
     });
 
     if (!participant) {
-        res.json({
-            success: false,
-            message: constants.participantNotFound,
-        });
+        res.render('emailVerified', { verified });
         return;
     }
 
-    res.json({
-        success: true,
-        message: constants.verificationSuccess,
-    });
+    verified = true;
+    res.render('emailVerified', { verified, email: participant.email });
 });
 
 router.get('/login', async (req, res) => {
@@ -210,6 +206,14 @@ router.post('/login', async (req, res) => {
     } else {
         jsonResponse.success = false;
         jsonResponse.message = constants.incorrectDetails;
+    }
+
+    if (participant.verificationStatus === 'false') {
+        jsonResponse.success = false;
+        jsonResponse.message = constants.notVerified;
+
+        res.json(jsonResponse);
+        return;
     }
 
     if (req.session.clientId && jsonResponse.success) {

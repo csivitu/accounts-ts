@@ -57,50 +57,31 @@
 
             <div class="col-md-7 col-xs-7 col-sm-7 m-auto">
                 <div class="reg-card ml-5 card p-4">
-                    {{#if clientName}}
-                        <div class="card-title"><strong>LOGIN TO {{clientName}}</strong></div>
-                    {{else}}
-                        <div class="card-title"><strong>LOGIN</strong></div>
-                    {{/if}}
-                    <div class="card-body px-5">
-                        <div class="alert alert-danger submit-failure" role="alert">
-                        </div>
-                        <form id="login-form" class="login-form-1" method="POST" action="/auth/login">
-
-                            <div class="input-group py-1">
-                                <label for="lg_username" class="sr-only">Username</label>
-                                <input type="text" class="form-control" id="lg_username" name="username"
-                                    placeholder="Username" maxlength="70" required>
-                            </div>
-
-                            <div class="input-group py-1">
-                                <label for="lg_password" class="sr-only">Password</label>
-                                <input type="password" class="form-control" id="lg_password" name="password"
-                                    placeholder="Password" maxlength="70" required>
-                            </div>
-
-                            <div class="submit-button-container text-center mt-4">
-                                <input type="submit" class="btn mt-2 submit-button px-4" value="SUBMIT" />
-                            </div>
-
+                    {{#if verified}}
+                        <div class="card-title"><strong>EMAIL VERIFIED</strong></div>
+                        <div class="card-body px-5">
                             <div class="text-center form-message mt-3">
-                                Haven't been here before? <a href="/auth/register">Sign up</a>.
+                                Your email <br>
+                                <span style="color: #0381ff; font-size: 2rem;">{{email}}</span>.<br>
+                                has been sucesfully verified! <br> <br>
+                                Click <a href="/auth/login">here</a> to login.
                             </div>
-                            <div class="text-center form-message mt-2">
-                                <a onclick="replaceForm()" href="#">Forgot username or password?</a>
+                        </div>
+                    {{else}}
+                        <div class="card-title"><strong>INVALID VERIFICATION LINK</strong></div>
+                        <div class="card-body px-5">
+                            <div class="text-center form-message mt-3">
+                                The verification link is invalid, please verify the link with the one sent on your email inbox. <br><br>Need help? <a href="mailto:askcsivit@gmail.com">Contact us</a>.
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                    {{/if}}
                 </div>
                 <div class="row p-5 footer-bottom d-none"></div>
             </div>
         </div>
         {{> footer}}
     </div>
-    <div class="g-recaptcha" data-sitekey="6Lf3IcMUAAAAABowZiwEpHWdBYwl9qvZiA38xcs_" data-callback="onSubmit" data-size="invisible">
-    </div>
 </body>
 
-<script src="/static/js/login.js"></script>
 
 </html>
