@@ -37,35 +37,44 @@ function notify() {
     $('.card-body').replaceWith(message);
 }
 
-$(() => {
-    $('#login-form').submit((event) => {
-        event.preventDefault();
-        $.ajax({
-            url: '/auth/login',
-            method: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify({
-                username: $('input[name="username"]').val(),
-                password: $('input[name="password"]').val(),
-            }),
-        })
-            .done((response) => {
-                if (response.success) {
-                    if (response.redirect !== '') {
-                        window.location.href = response.redirect;
-                    } else {
-                        window.location.href = '/';
-                    }
-                } else if (!response.success && response.message === 'incorrectDetails') {
-                    $('.submit-failure').show();
-                } else if (!response.success && response.message === 'recaptchaFailed') {
-                    $('.submit-failure').html('Google Recaptcha verification failed. Try again.').show();
+function onSubmit(token) {
+    $.ajax({
+        url: '/auth/login',
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({
+            username: $('input[name="username"]').val(),
+            password: $('input[name="password"]').val(),
+            grecaptcha_token: token,
+        }),
+    })
+        .done((response) => {
+            if (response.success) {
+                if (response.redirect !== '') {
+                    window.location.href = response.redirect;
                 } else {
-                    $('.submit-failure').html('An unknown error has occured.').show();
+                    window.location.href = '/';
                 }
-            })
-            .fail(() => {
+            } else if (!response.success && response.message === 'incorrectDetails') {
+                $('.submit-failure').show();
+            } else if (!response.success && response.message === 'recaptchaFailed') {
+                $('.submit-failure').html('Google Recaptcha verification failed. Try again.').show();
+            } else {
                 $('.submit-failure').html('An unknown error has occured.').show();
-            });
+            }
+        })
+        .fail(() => {
+            $('.submit-failure').html('An unknown error has occured.').show();
+        });
+
+    // eslint-disable-next-line no-undef
+    grecaptcha.reset();
+}
+
+$(() => {
+    $('#login-form').submit(() => {
+        // eslint-disable-next-line no-undef
+        grecaptcha.execute();
+        return false;
     });
 });

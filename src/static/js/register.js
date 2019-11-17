@@ -122,6 +122,9 @@ function onSubmit(token) {
         .fail(() => {
             $('.submit-failure').html('An unknown error has occured.').show();
         });
+
+    // eslint-disable-next-line no-undef
+    grecaptcha.reset();
 }
 
 $(() => {
