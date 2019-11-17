@@ -44,8 +44,8 @@ const verifyRecaptcha = async (response: string) => {
             secret: process.env.RECAPTCHA_SECRET,
             response,
         },
+        json: true,
     });
-
     return recaptcha.success === true;
 };
 
@@ -59,7 +59,7 @@ router.post('/register', async (req, res) => {
         message: constants.defaultResponse,
         duplicates: [] as string[],
     };
-    const recaptcha = verifyRecaptcha(req.body.grecaptcha_token);
+    const recaptcha = await verifyRecaptcha(req.body.grecaptcha_token);
     if (!recaptcha) {
         jsonResponse.message = constants.recaptchaFailed;
         res.json(jsonResponse);
@@ -183,7 +183,7 @@ router.post('/login', async (req, res) => {
         redirect: '',
     };
 
-    const recaptcha = verifyRecaptcha(req.body.grecaptcha_token);
+    const recaptcha = await verifyRecaptcha(req.body.grecaptcha_token);
     if (!recaptcha) {
         jsonResponse.message = constants.recaptchaFailed;
         res.json(jsonResponse);
