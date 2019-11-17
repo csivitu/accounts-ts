@@ -1,7 +1,7 @@
 {
-  "name": "ccs-backend",
+  "name": "accounts",
   "version": "1.0.0",
-  "description": "Backend for CCS Website",
+  "description": "Accounts Website",
   "main": "server.js",
   "scripts": {
     "start": "ts-node-dev --respawn --transpileOnly src/server.ts",
