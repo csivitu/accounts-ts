@@ -60,6 +60,18 @@ router.post('/forgotPassword', async (req, res) => {
     sendResetMail(participant);
 });
 
+router.get('/resetPassword', async (req, res) => {
+    const { token } = req.body;
+
+    const user = User.findOne({ passwordResetToken: token });
+
+    if (!user) {
+        res.render('resetPassword', { valid: false });
+    } else {
+        res.render('resetPassword', { valid: true });
+    }
+});
+
 router.post('/resetPassword', async (req, res) => {
     const participant = await User.findOneAndUpdate({
         passwordResetToken: req.body.token,
