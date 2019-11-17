@@ -49,6 +49,18 @@ router.post('/forgotPassword', async (req, res) => {
     });
 });
 
+router.get('/resetPassword', async (req, res) => {
+    const { token } = req.body;
+
+    const user = User.findOne({ passwordResetToken: token });
+
+    if (!user) {
+        res.render('resetPassword', { valid: false });
+    } else {
+        res.render('resetPassword', { valid: true });
+    }
+});
+
 router.post('/resetPassword', async (req, res) => {
     const passwordResetToken = (await crypto.randomBytes(32)).toString('hex');
 

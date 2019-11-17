@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 function replaceForm() {
-    const passwordResetForm = `<form id="login-form" class="login-form-1" method="POST" action="/forgotPassword" onsubmit="notify()">
+    const passwordResetForm = `<form id="login-form" class="login-form-1" method="POST" action="/recovery/forgotPassword" onsubmit="notify()">
 
                                     <div class="input-group py-1">
                                         <label for="lg_email" class="sr-only">Email</label>
