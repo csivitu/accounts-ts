@@ -20,6 +20,7 @@ export const constants = {
     incorrectDetails: 'incorrectDetails',
 
     participantNotFound: 'participantNotFound',
+    duplicate: 'duplicate',
     loginSuccess: 'loginSuccess',
     logoutSuccess: 'logoutSuccess',
     maxFieldLengthExceeded: 'maxFieldLengthExceeded',

@@ -56,6 +56,10 @@ class InputField {
     }
 }
 
+function registrationSuccess() {
+    const a = 1;
+}
+
 $(() => {
     const fields = [{
         name: 'email',
@@ -83,15 +87,54 @@ $(() => {
         fieldObjs[field.name] = new InputField(field.name, field.regex, field.message);
     });
 
-    $('#login-form').submit(() => {
+    $('#login-form').submit((event) => {
+        event.preventDefault();
+
         const keys = Object.keys(fieldObjs);
         for (let i = 0; i < keys.length; i += 1) {
             if (!fieldObjs[keys[i]].validate()) {
                 $('.submit-failure').show();
-                return false;
+                return;
             }
         }
-        return true;
+
+        $.ajax({
+            url: '/auth/register',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                name: $('input[name="name"]').val(),
+                username: $('input[name="username"]').val(),
+                password: $('input[name="password"]').val(),
+                mobile: $('input[name="mobile"]').val(),
+                isVitian: $('input[name="isVitian"]')[0].checked,
+                regNo: $('input[name="regNo"]').val(),
+                email: $('input[name="email"]').val(),
+                gender: $('input[name="gender"]:checked').val(),
+            }),
+        })
+            .done((response) => {
+                if (response.success && response.message === 'registrationSuccess') {
+                    registrationSuccess();
+                } else if (response.message === 'duplicate') {
+                    if (!response.duplicates) {
+                        $('.submit-failure').html('An unknown error has occured.').show();
+                        return;
+                    }
+
+                    let content = 'The following fields are duplicate: ';
+                    let i = 0;
+
+                    for (; i < response.duplicates.length - 1; i += 1) {
+                        content += `${response.duplicates[i]}, `;
+                    }
+                    content += `${response.duplicates[i]}.`;
+                    $('.submit-failure').html(content).show();
+                }
+            })
+            .fail(() => {
+                $('.submit-failure').html('An unknown error has occured.').show();
+            });
     });
 
     $('#lg_vitian').change((event) => {
