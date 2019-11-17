@@ -29,6 +29,7 @@ export const constants = {
     recaptchaFailed: 'recaptchaFailed',
 
     registrationSuccess: 'registrationSuccess',
+    notVerified: 'notVerified',
 
     questionAdded: 'questionAdded',
     passwordResetMail: 'passwordResetMailSent',
