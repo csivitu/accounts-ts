@@ -57,6 +57,7 @@ router.post('/register', async (req, res) => {
     const jsonResponse = {
         success: false,
         message: constants.defaultResponse,
+        duplicates: [] as string[],
     };
 
     if (!verifyUsername(user.username)) {
@@ -75,7 +76,7 @@ router.post('/register', async (req, res) => {
         return;
     }
 
-    if (req.body.isVitian === 'true') {
+    if (req.body.isVitian) {
         if (!verifyRegNo(user.regNo)) {
             jsonResponse.message = constants.invalidRegNo;
             res.json(jsonResponse);
@@ -92,12 +93,24 @@ router.post('/register', async (req, res) => {
         return;
     }
 
-    if (await User.findOne({
+    const duplicate = await User.findOne({
         $or: [
             { email: user.email }, { username: user.username }, { regNo: user.regNo },
         ],
-    })) {
-        jsonResponse.message = constants.serverError;
+    });
+    if (duplicate) {
+        jsonResponse.message = constants.duplicate;
+        jsonResponse.duplicates = [];
+        if (duplicate.email === user.email) {
+            jsonResponse.duplicates.push('Email');
+        }
+        if (duplicate.username === user.username) {
+            jsonResponse.duplicates.push('Username');
+        }
+        if (duplicate.regNo === user.regNo) {
+            jsonResponse.duplicates.push('Registration Number');
+        }
+
         res.json(jsonResponse);
         return;
     }
@@ -117,7 +130,7 @@ router.post('/register', async (req, res) => {
     jsonResponse.success = true;
     jsonResponse.message = constants.registrationSuccess;
 
-    res.redirect('/auth/login');
+    res.json(jsonResponse);
 });
 
 router.post('/verify', async (req, res) => {
