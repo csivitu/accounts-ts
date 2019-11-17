@@ -137,7 +137,7 @@ router.post('/register', async (req, res) => {
 
     user.password = await bcrypt.hash(req.body.password, saltRounds);
     user.emailVerificationToken = (await crypto.randomBytes(32)).toString('hex');
-    user.passwordResetToken = '';
+    user.passwordResetToken = 'default';
     user.scope = ['user'];
 
 

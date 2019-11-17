@@ -41,7 +41,7 @@ router.post('/forgotPassword', async (req, res) => {
         return;
     }
 
-    if (participant.passwordResetToken !== '') {
+    if (participant.passwordResetToken !== 'default') {
         res.json({
             success: true,
             message: constants.emailAlreadySent,
@@ -76,7 +76,7 @@ router.post('/resetPassword', async (req, res) => {
     const participant = await User.findOneAndUpdate({
         passwordResetToken: req.body.token,
     }, {
-        passwordResetToken: '',
+        passwordResetToken: 'default',
         password: req.body.password,
     });
 
