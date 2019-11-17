@@ -199,15 +199,6 @@ router.post('/login', async (req, res) => {
 
         return;
     }
-    console.log(participant.verificationStatus);
-
-    if (!participant.verificationStatus) {
-        jsonResponse.success = false;
-        jsonResponse.message = constants.notVerified;
-
-        res.json(jsonResponse);
-        return;
-    }
 
     if (await bcrypt.compare(password, participant.password)) {
         jsonResponse.success = true;
@@ -215,6 +206,14 @@ router.post('/login', async (req, res) => {
     } else {
         jsonResponse.success = false;
         jsonResponse.message = constants.incorrectDetails;
+    }
+
+    if (participant.verificationStatus === 'false') {
+        jsonResponse.success = false;
+        jsonResponse.message = constants.notVerified;
+
+        res.json(jsonResponse);
+        return;
     }
 
     if (req.session.clientId && jsonResponse.success) {
