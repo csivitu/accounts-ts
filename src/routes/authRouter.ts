@@ -29,7 +29,7 @@ const sendVerificationMail = async (participant: UserInterface) => {
     const verifyLink = new url.URL(process.env.VERIFY_LINK);
     verifyLink.searchParams.append('token', participant.emailVerificationToken);
     const renderedHtml = await hb.render('src/templates/verify.hbs', {
-        participant,
+        name: participant.name,
         verifyLink: verifyLink.href,
     });
     await sendMail(participant.name, participant.email,

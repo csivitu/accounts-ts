@@ -17,7 +17,12 @@ const sendResetMail = async (participant: UserInterface) => {
     const resetLink = new URL(process.env.RESET_LINK);
     resetLink.search = `token=${participant.passwordResetToken}`;
 
-    const renderedHtml = await hb.render('src/templates/reset.html', { participant, resetLink: resetLink.href });
+    const renderedHtml = await hb.render('src/templates/reset.html', {
+        name: participant.name,
+        username: participant.username,
+        resetLink: resetLink.href,
+    });
+
     await sendMail(participant.name, participant.email,
         constants.sendResetMailSubject, renderedHtml);
 };
