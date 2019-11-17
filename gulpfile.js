@@ -11,7 +11,7 @@ const tsProject = gulpTS.createProject('tsconfig.json');
 const dotenvConfig = {
     SESSION_SECRET: process.env.SESSION_SECRET,
     PORT: process.env.PORT,
-    SENGRID_API_KEY: process.env.SENGRID_API_KEY,
+    SENDGRID_API_KEY: process.env.SENDGRID_API_KEY,
     RESET_LINK: process.env.RESET_LINK,
     VERIFY_LINK: process.env.VERIFY_LINK,
     MONGO_URL: process.env.MONGO_URL,
