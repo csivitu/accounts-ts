@@ -30,6 +30,7 @@ export const constants = {
 
     registrationSuccess: 'registrationSuccess',
     notVerified: 'notVerified',
+    emailAlreadySent: 'emailAlreadySent',
 
     questionAdded: 'questionAdded',
     passwordResetMail: 'passwordResetMailSent',

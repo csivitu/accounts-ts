@@ -41,21 +41,30 @@ router.post('/forgotPassword', async (req, res) => {
         return;
     }
 
-    await sendResetMail(participant);
+    if (participant.passwordResetToken !== '') {
+        res.json({
+            success: true,
+            message: constants.emailAlreadySent,
+        });
+    }
 
     res.json({
         success: true,
         message: constants.passwordResetMail,
     });
+
+    const passwordResetToken = (await crypto.randomBytes(32)).toString('hex');
+    participant.passwordResetToken = passwordResetToken;
+    await participant.save();
+
+    sendResetMail(participant);
 });
 
 router.post('/resetPassword', async (req, res) => {
-    const passwordResetToken = (await crypto.randomBytes(32)).toString('hex');
-
     const participant = await User.findOneAndUpdate({
         passwordResetToken: req.body.token,
     }, {
-        passwordResetToken,
+        passwordResetToken: '',
         password: req.body.password,
     });
 
