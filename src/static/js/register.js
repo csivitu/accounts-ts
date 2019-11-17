@@ -133,13 +133,13 @@ $(() => {
                         return;
                     }
 
-                    let content = 'The following fields are duplicate: ';
+                    let content = '';
                     let i = 0;
 
                     for (; i < response.duplicates.length - 1; i += 1) {
                         content += `${response.duplicates[i]}, `;
                     }
-                    content += `${response.duplicates[i]}.`;
+                    content += `${response.duplicates[i]} already exists.`;
                     $('.submit-failure').html(content).show();
                 }
             })
