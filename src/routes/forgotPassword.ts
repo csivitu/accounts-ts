@@ -1,6 +1,7 @@
 import express from 'express';
 import crypto from 'crypto';
 import hbs from 'express-handlebars';
+import bcrypt from 'bcrypt';
 
 import { User, UserInterface } from '../models/user.model';
 import { constants } from '../tools/constants';
@@ -17,7 +18,7 @@ const sendResetMail = async (participant: UserInterface) => {
     const resetLink = new URL(process.env.RESET_LINK);
     resetLink.search = `token=${participant.passwordResetToken}`;
 
-    const renderedHtml = await hb.render('src/templates/reset.html', {
+    const renderedHtml = await hb.render('src/templates/reset.hbs', {
         name: participant.name,
         username: participant.username,
         resetLink: resetLink.href,
@@ -46,6 +47,7 @@ router.post('/forgotPassword', async (req, res) => {
             success: true,
             message: constants.emailAlreadySent,
         });
+        return;
     }
 
     res.json({
@@ -61,28 +63,30 @@ router.post('/forgotPassword', async (req, res) => {
 });
 
 router.get('/resetPassword', async (req, res) => {
-    const { token } = req.body;
+    const { token } = req.query;
 
-    const user = User.findOne({ passwordResetToken: token });
-
+    const user = await User.findOne({ passwordResetToken: token });
     if (!user) {
-        res.render('resetPassword', { valid: false });
+        res.render('resetPassword', { valid: false, token });
     } else {
-        res.render('resetPassword', { valid: true });
+        res.render('resetPassword', { valid: true, token });
     }
 });
 
 router.post('/resetPassword', async (req, res) => {
+    const saltRounds = 10;
+    const password = await bcrypt.hash(req.body.password, saltRounds);
+
     const participant = await User.findOneAndUpdate({
         passwordResetToken: req.body.token,
     }, {
         passwordResetToken: 'default',
-        password: req.body.password,
+        password,
     });
 
     if (!participant) {
         res.json({
-            success: true,
+            success: false,
             message: constants.participantNotFound,
         });
 
