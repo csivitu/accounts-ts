@@ -25,15 +25,12 @@ const hb = hbs.create({
 export const router = express.Router();
 
 const sendVerificationMail = async (participant: UserInterface) => {
-    const verifyLink = url.format({
-        href: process.env.VERIFY_LINK,
-        query: {
-            token: participant.emailVerificationToken,
-        },
-    });
+    const verifyLink = new url.URL(process.env.VERIFY_LINK);
+    verifyLink.searchParams.append('token', participant.emailVerificationToken);
+
     const renderedHtml = await hb.render('src/templates/verify.hbs', {
         participant,
-        verifyLink,
+        verifyLink: verifyLink.href,
     });
     await sendMail(participant.name, participant.email,
         constants.sendVerificationMailSubject, renderedHtml);
@@ -87,10 +84,13 @@ router.post('/register', async (req, res) => {
             res.json(jsonResponse);
             return;
         }
-    } else if (!verifyEmail(user.email)) {
-        jsonResponse.message = constants.invalidEmail;
-        res.json(jsonResponse);
-        return;
+    } else {
+        if (!verifyEmail(user.email)) {
+            jsonResponse.message = constants.invalidEmail;
+            res.json(jsonResponse);
+            return;
+        }
+        user.regNo = '';
     }
 
     const duplicate = await User.findOne({
