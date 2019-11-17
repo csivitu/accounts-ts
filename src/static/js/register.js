@@ -56,8 +56,17 @@ class InputField {
     }
 }
 
-function registrationSuccess() {
-    const a = 1;
+function registrationSuccess(email) {
+    const message = `<div class="text-center form-message mt-3">
+                        You have registered successfully! We have emailed you account verification instructions at <br>
+                        <a href="mailto:${email}" style="color: #0381ff; font-size: 2rem;">${email}</a>.<br><br>
+                        Need help? <a href="mailto:askcsivit@gmail.com">Contact us</a>.
+                    </div>`;
+
+    const cardTitle = '<div class="card-title"><strong>CHECK YOUR EMAIL</strong></div>';
+
+    $('.card-title').replaceWith(cardTitle);
+    $('.card-body').replaceWith(message);
 }
 
 $(() => {
@@ -98,6 +107,8 @@ $(() => {
             }
         }
 
+        const userEmail = $('input[name="email"]').val();
+
         $.ajax({
             url: '/auth/register',
             method: 'POST',
@@ -109,13 +120,13 @@ $(() => {
                 mobile: $('input[name="mobile"]').val(),
                 isVitian: $('input[name="isVitian"]')[0].checked,
                 regNo: $('input[name="regNo"]').val(),
-                email: $('input[name="email"]').val(),
+                email: userEmail,
                 gender: $('input[name="gender"]:checked').val(),
             }),
         })
             .done((response) => {
                 if (response.success && response.message === 'registrationSuccess') {
-                    registrationSuccess();
+                    registrationSuccess(userEmail);
                 } else if (response.message === 'duplicate') {
                     if (!response.duplicates) {
                         $('.submit-failure').html('An unknown error has occured.').show();

@@ -130,7 +130,7 @@ router.post('/register', async (req, res) => {
     jsonResponse.success = true;
     jsonResponse.message = constants.registrationSuccess;
 
-    res.redirect('/auth/login');
+    res.json(jsonResponse);
 });
 
 router.post('/verify', async (req, res) => {
