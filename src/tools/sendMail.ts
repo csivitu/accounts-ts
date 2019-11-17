@@ -3,6 +3,7 @@ import sendgrid from 'sendgrid';
 import { constants } from './constants';
 
 require('dotenv').config();
+
 const {
     SENDGRID_API_KEY,
 } = process.env;
