@@ -26,6 +26,7 @@ export const constants = {
     maxFieldLengthExceeded: 'maxFieldLengthExceeded',
     adminLoginSuccess: 'adminLoginSuccess',
     adminLogoutSuccess: 'adminLogoutSuccess',
+    recaptchaFailed: 'recaptchaFailed',
 
     registrationSuccess: 'registrationSuccess',
 

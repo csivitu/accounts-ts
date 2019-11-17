@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 import crypto from 'crypto';
 import hbs from 'express-handlebars';
 import url from 'url';
+import rp from 'request-promise';
 
 import { User, UserInterface } from '../models/user.model';
 import { constants } from '../tools/constants';
@@ -36,11 +37,35 @@ const sendVerificationMail = async (participant: UserInterface) => {
         constants.sendVerificationMailSubject, renderedHtml);
 };
 
+const verifyRecaptcha = async (response: string) => {
+    const recaptcha = await rp({
+        method: 'POST',
+        uri: 'https://www.google.com/recaptcha/api/siteverify',
+        form: {
+            secret: process.env.RECAPTCHA_SECRET,
+            response,
+        },
+    });
+
+    return recaptcha.success === true;
+};
+
 router.get('/register', async (req, res) => {
     res.render('register');
 });
 
 router.post('/register', async (req, res) => {
+    const jsonResponse = {
+        success: false,
+        message: constants.defaultResponse,
+        duplicates: [] as string[],
+    };
+    const recaptcha = verifyRecaptcha(req.body.grecaptcha_token);
+    if (!recaptcha) {
+        jsonResponse.message = constants.recaptchaFailed;
+        res.json(jsonResponse);
+        return;
+    }
     const user = new User({
         username: req.body.username,
         name: req.body.name,
@@ -50,12 +75,6 @@ router.post('/register', async (req, res) => {
         regNo: req.body.regNo,
         gender: req.body.gender,
     });
-
-    const jsonResponse = {
-        success: false,
-        message: constants.defaultResponse,
-        duplicates: [] as string[],
-    };
 
     if (!verifyUsername(user.username)) {
         jsonResponse.message = constants.invalidUsername;
@@ -164,6 +183,13 @@ router.post('/login', async (req, res) => {
         message: constants.defaultResponse,
         redirect: '',
     };
+
+    const recaptcha = verifyRecaptcha(req.body.grecaptcha_token);
+    if (!recaptcha) {
+        jsonResponse.message = constants.recaptchaFailed;
+        res.json(jsonResponse);
+        return;
+    }
 
     const { username, password } = req.body;
 
