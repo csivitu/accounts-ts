@@ -6,7 +6,7 @@ const regexes = {
     vitEmailRegex: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((vitstudent.ac.in)|(vit.ac.in))$/,
     emailRegex: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
     mobileRegex: /^[6-9]\d{8,9}$/, // 9-10 characters
-    passwordRegex: /^[a-zA-Z0-9`!@#$%^&*()-/:'.,{}_"~]{8,16}$/, // 8-16 characters,
+    passwordRegex: /^[a-zA-Z0-9`!@#$%^&*()-/:'.,{}_"~]{8,50}$/, // 8-50 characters,
     regNoRegex: /^\d\d[A-Z]{3}[0-9]{4}$/,
     usernameRegex: /^[a-zA-Z0-9`!@#$%^&*()-/:'.,{}_"~]{3,20}$/,
 };
@@ -141,7 +141,7 @@ $(() => {
     }, {
         name: 'password',
         regex: regexes.passwordRegex,
-        message: 'Invalid Password. Password must have 8-16 characters.',
+        message: 'Invalid Password. Password must have 8-50 characters.',
     }, {
         name: 'regNo',
         regex: regexes.regNoRegex,
