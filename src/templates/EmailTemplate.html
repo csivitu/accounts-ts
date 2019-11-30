@@ -17,7 +17,7 @@
     justify-content: space-around;
     font-family: Monteserrat, Arial, sans-serif;">
         <div>
-        <img src="https://static.csivit.com/ccs/email/logo.png" style="">
+        <img src="https://static.csivit.com/ccs/email/logo.png">
         </div>
 
         <h1 style="
@@ -37,12 +37,13 @@
 
         <h7 style="font-size: 1.066rem;">
             <br>
-            Please verify your email to secure your account.
+            Hello {{name}}. Please verify your email to secure your account.
         </h7>
         <br>
 
         <button style="background-color:#2222b2;
-            color: white;">
+            color: white;"
+            onclick="window.location.href='{{verifyLink}}'">
             VERIFY NOW
         </button>
 
@@ -57,8 +58,10 @@
             font-family: Arial;
             font-size: 0.78125rem;
             margin-left: auto;
-            margin-right: auto;">
-            {{link}}
+            margin-right: auto;"
+            
+            href={{verifyLink}}>
+            {{verifyLink}}
         </a>
 
 
