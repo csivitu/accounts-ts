@@ -1,11 +1,11 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
-
+import cors from 'cors';
 
 export const router = express.Router();
 
 
-router.get('/', (req, res) => {
+router.get('/', cors(), (req, res) => {
     const { token } = req.query;
 
     jwt.verify(token, process.env.JWT_SECRET, (err: any, decoded: any) => {
