@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
     jwt.verify(token, process.env.JWT_SECRET, (err: any, decoded: any) => {
         if (err) {
             res.json({
-                success: false
+                success: false,
             });
         } else {
             res.json({
