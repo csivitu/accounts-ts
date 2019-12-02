@@ -4,7 +4,7 @@ import cors from 'cors';
 
 export const router = express.Router();
 
-
+router.options('/', cors());
 router.get('/', cors(), (req, res) => {
     const { token } = req.query;
 
