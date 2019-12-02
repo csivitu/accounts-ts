@@ -9,6 +9,7 @@ import { connectMongo } from './models/connect';
 import { router as authRouter } from './routes/authRouter';
 import { router as forgotPasswordRouter } from './routes/forgotPassword';
 import { router as oauthRouter } from './routes/oauth';
+import { router as userRouter } from './routes/user';
 
 dotenv.config();
 
@@ -64,6 +65,8 @@ app.use('/static', express.static(staticFolder));
 app.use('/auth', authRouter);
 app.use('/oauth', oauthRouter);
 app.use('/recovery', forgotPasswordRouter);
+app.use('/user', userRouter);
+
 app.use('/', (req, res) => {
     res.redirect('/auth/login');
 });
