@@ -6,9 +6,9 @@ export const router = express.Router();
 
 router.options('/', cors());
 router.get('/', cors(), (req, res) => {
-    let token = req.headers.authorization as string;
+    let token = req.query.token;
     if (!token) {
-        token = req.query.token;
+        token = req.headers.authorization as string;
     }
     jwt.verify(token, process.env.JWT_SECRET, (err: any, decoded: any) => {
         if (err) {
