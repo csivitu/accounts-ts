@@ -6,7 +6,7 @@ export const router = express.Router();
 
 router.options('/', cors());
 router.get('/', cors(), (req, res) => {
-    let token = req.query.token;
+    let { token } = req.query;
     if (!token) {
         token = req.headers.authorization as string;
     }
