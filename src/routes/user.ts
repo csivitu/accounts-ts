@@ -6,8 +6,11 @@ export const router = express.Router();
 
 router.options('/', cors());
 router.get('/', cors(), (req, res) => {
-    const token = req.headers.Authorization as string;
+    let token = req.headers.Authorization as string;
 
+    if (!token) {
+        token = req.query.token;
+    }
     jwt.verify(token, process.env.JWT_SECRET, (err: any, decoded: any) => {
         if (err) {
             res.json({
