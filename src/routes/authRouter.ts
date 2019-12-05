@@ -186,11 +186,23 @@ router.post('/login', async (req, res) => {
         return;
     }
 
-    const { username, password } = req.body;
+    const { username, password, regNo } = req.body;
 
-    const participant = await User.findOne({
-        username,
-    });
+    if ((!username && !regNo) || !password) {
+        jsonResponse.message = constants.serverError;
+    }
+
+    let participant;
+
+    if (username) {
+        participant = await User.findOne({
+            username,
+        });
+    } else {
+        participant = await User.findOne({
+            regNo,
+        });
+    }
 
     if (!participant) {
         jsonResponse.success = false;

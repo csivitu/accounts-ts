@@ -64,6 +64,7 @@ function onSubmit(token) {
         contentType: 'application/json',
         data: JSON.stringify({
             username: $('input[name="username"]').val(),
+            regNo: $('input[name=regNo]').val(),
             password: $('input[name="password"]').val(),
             grecaptcha_token: token,
         }),
@@ -76,7 +77,7 @@ function onSubmit(token) {
                     window.location.href = '/';
                 }
             } else if (!response.success && response.message === 'incorrectDetails') {
-                $('.submit-failure').html('You entered an incorrect Username or Password.').show();
+                $('.submit-failure').html('You entered an incorrect Username/RegNo or Password.').show();
             } else if (!response.success && response.message === 'recaptchaFailed') {
                 $('.submit-failure').html('Google Recaptcha verification failed. Try again.').show();
             } else if (!response.success && response.message === 'notVerified') {
@@ -95,6 +96,13 @@ function onSubmit(token) {
 
 $(() => {
     $('#login-form').submit(() => {
+        const username = $('input[name="username"]').val();
+        const regNo = $('input[name="regNo"]').val();
+
+        if (!username && !regNo) {
+            $('.submit-failure').html('Enter username or registration number.').show();
+            return false;
+        }
         // eslint-disable-next-line no-undef
         grecaptcha.execute();
         return false;
