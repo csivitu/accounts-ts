@@ -1,6 +1,6 @@
 import express from 'express';
 import constants from '../tools/constants';
-import { Client } from '../models/models';
+import { Client } from '../mongeese/models';
 
 export const router = express.Router();
 

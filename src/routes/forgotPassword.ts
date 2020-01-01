@@ -3,10 +3,10 @@ import crypto from 'crypto';
 import hbs from 'express-handlebars';
 import bcrypt from 'bcrypt';
 
-import { UserInterface } from '../models/user';
+import { UserInterface } from '../mongeese/user';
 import { constants } from '../tools/constants';
 import { sendMail } from '../tools/sendMail';
-import { User } from '../models/models';
+import { User } from '../mongeese/models';
 
 const hb = hbs.create({
     extname: '.hbs',

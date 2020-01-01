@@ -1,6 +1,6 @@
 import crypto from 'crypto';
 
-import { Client, User } from '../models/models';
+import { Client, User } from '../mongeese/models';
 
 
 export const createDummyData = async () => {

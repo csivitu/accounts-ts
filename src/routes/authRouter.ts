@@ -5,8 +5,8 @@ import hbs from 'express-handlebars';
 import url from 'url';
 import rp from 'request-promise';
 
-import { User } from '../models/models';
-import { UserInterface } from '../models/user';
+import { User } from '../mongeese/models';
+import { UserInterface } from '../mongeese/user';
 import { constants } from '../tools/constants';
 import {
     verifyVITEmail,
