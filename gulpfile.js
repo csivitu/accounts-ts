@@ -17,7 +17,7 @@ const dotenvConfig = {
     MONGO_URL: process.env.MONGO_URL,
     JWT_SECRET: process.env.JWT_SECRET,
     JWT_EXPIRY: process.env.JWT_EXPIRY,
-    DB_NAME: process.env.ACCOUNTS_DB,
+    ACCOUNTS_DB: process.env.ACCOUNTS_DB,
     RECAPTCHA_SECRET: process.env.RECAPTCHA_SECRET,
 }
 
