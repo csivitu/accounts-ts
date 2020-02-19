@@ -113,7 +113,7 @@ router.post('/register', async (req, res) => {
 
     const duplicate = await User.findOne({
         $or: [
-            { email: user.email }, { username: user.username }, { regNo: user.regNo },
+            { email: user.email }, { username: user.username },
         ],
     });
     if (duplicate) {
@@ -124,9 +124,6 @@ router.post('/register', async (req, res) => {
         }
         if (duplicate.username === user.username) {
             jsonResponse.duplicates.push('Username');
-        }
-        if (duplicate.regNo === user.regNo) {
-            jsonResponse.duplicates.push('Registration Number');
         }
 
         res.json(jsonResponse);
