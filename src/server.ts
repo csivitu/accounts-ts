@@ -1,18 +1,14 @@
-import * as dotenv from 'dotenv';
 import express from 'express';
 import bodyparser from 'body-parser';
 import session from 'express-session';
 import hbs from 'express-handlebars';
 import path from 'path';
 
-import { connectMongo } from './models/connect';
+import './config';
 import { router as authRouter } from './routes/authRouter';
 import { router as forgotPasswordRouter } from './routes/forgotPassword';
 import { router as oauthRouter } from './routes/oauth';
-
-dotenv.config();
-
-connectMongo();
+import { router as userRouter } from './routes/user';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -64,6 +60,8 @@ app.use('/static', express.static(staticFolder));
 app.use('/auth', authRouter);
 app.use('/oauth', oauthRouter);
 app.use('/recovery', forgotPasswordRouter);
+app.use('/user', userRouter);
+
 app.use('/', (req, res) => {
     res.redirect('/auth/login');
 });

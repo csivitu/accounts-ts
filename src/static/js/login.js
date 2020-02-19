@@ -76,7 +76,7 @@ function onSubmit(token) {
                     window.location.href = '/';
                 }
             } else if (!response.success && response.message === 'incorrectDetails') {
-                $('.submit-failure').html('You entered an incorrect Username or Password.').show();
+                $('.submit-failure').html('You entered an incorrect Username/RegNo or Password.').show();
             } else if (!response.success && response.message === 'recaptchaFailed') {
                 $('.submit-failure').html('Google Recaptcha verification failed. Try again.').show();
             } else if (!response.success && response.message === 'notVerified') {

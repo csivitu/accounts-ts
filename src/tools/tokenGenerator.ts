@@ -1,5 +1,5 @@
 import jsonwebtoken, { JsonWebTokenError } from 'jsonwebtoken';
-import { UserInterface } from '../models/user.model';
+import { UserInterface } from '../models/user';
 
 export const generateToken = (user: UserInterface) => {
     const userObj = {

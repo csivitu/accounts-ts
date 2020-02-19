@@ -1,6 +1,6 @@
-import { connectMongo } from '../models/connect';
+import connectMongo from '../models/db';
 
-import User from '../models/user.model';
+import { User } from '../models/models';
 
 require('dotenv').config();
 
@@ -9,7 +9,7 @@ const regNoArray = ['19BBS0079', '19BBS0127', '19BBS0152', '19BBS0153', '19BCB00
 async function abc() {
     await connectMongo();
     const docs = await User.find({ regNo: { $in: regNoArray } });
-    await Promise.all(docs.map((doc) => {
+    await Promise.all(docs.map((doc: { scope: string[]; regNo: any; save: () => void; }) => {
         doc.scope.push('csi');
         console.log(doc.regNo);
         return doc.save();

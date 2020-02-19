@@ -5,7 +5,8 @@ import hbs from 'express-handlebars';
 import url from 'url';
 import rp from 'request-promise';
 
-import { User, UserInterface } from '../models/user.model';
+import { User } from '../models/models';
+import { UserInterface } from '../models/user';
 import { constants } from '../tools/constants';
 import {
     verifyVITEmail,
@@ -185,8 +186,16 @@ router.post('/login', async (req, res) => {
 
     const { username, password } = req.body;
 
+    if ((!username) || !password) {
+        jsonResponse.message = constants.serverError;
+    }
+
+
     const participant = await User.findOne({
-        username,
+        $or: [
+            { username },
+            { regNo: username },
+        ],
     });
 
     if (!participant) {
