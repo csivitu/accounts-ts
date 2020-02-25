@@ -18,7 +18,6 @@ test:
     - npm run build
   only:
     - master
-    - staging
     - dev
 
 deploy:
@@ -42,4 +41,3 @@ deploy:
   only:
     # Trigger deployments only from master branch
     - master
-    - staging
