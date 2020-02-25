@@ -1,6 +1,6 @@
 import express from 'express';
 import constants from '../tools/constants';
-import Client from '../models/client.model';
+import { Client } from '../models/models';
 
 export const router = express.Router();
 

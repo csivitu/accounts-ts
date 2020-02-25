@@ -5,7 +5,8 @@ import hbs from 'express-handlebars';
 import url from 'url';
 import rp from 'request-promise';
 
-import { User, UserInterface } from '../models/user.model';
+import { User } from '../models/models';
+import { UserInterface } from '../models/user';
 import { constants } from '../tools/constants';
 import {
     verifyVITEmail,
@@ -115,7 +116,7 @@ router.post('/register', async (req, res) => {
 
     const duplicate = await User.findOne({
         $or: [
-            { email: user.email }, { username: user.username }, { regNo: user.regNo },
+            { email: user.email }, { username: user.username },
         ],
     });
     if (duplicate) {
@@ -126,9 +127,6 @@ router.post('/register', async (req, res) => {
         }
         if (duplicate.username === user.username) {
             jsonResponse.duplicates.push('Username');
-        }
-        if (duplicate.regNo === user.regNo) {
-            jsonResponse.duplicates.push('Registration Number');
         }
 
         res.json(jsonResponse);

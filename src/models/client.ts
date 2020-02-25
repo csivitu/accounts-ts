@@ -21,5 +21,4 @@ export interface ClientInterface extends mongoose.Document {
     clientName: String,
 }
 
-export const Client: Model<ClientInterface> = mongoose.model('Client', clientSchema);
-export default Client;
+export default clientSchema;

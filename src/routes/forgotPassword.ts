@@ -3,9 +3,10 @@ import crypto from 'crypto';
 import hbs from 'express-handlebars';
 import bcrypt from 'bcrypt';
 
-import { User, UserInterface } from '../models/user.model';
+import { UserInterface } from '../models/user';
 import { constants } from '../tools/constants';
 import { sendMail } from '../tools/sendMail';
+import { User } from '../models/models';
 
 const hb = hbs.create({
     extname: '.hbs',

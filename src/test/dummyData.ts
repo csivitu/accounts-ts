@@ -1,7 +1,6 @@
 import crypto from 'crypto';
 
-import Client from '../models/client.model';
-import User from '../models/user.model';
+import { Client, User } from '../models/models';
 
 
 export const createDummyData = async () => {

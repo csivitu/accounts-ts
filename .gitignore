@@ -93,3 +93,5 @@ typings/
 .idea
 
 dist
+
+src/test/addCSItoScope.ts

@@ -18,5 +18,4 @@ export interface TokenInterface extends mongoose.Document {
     scope: String
 }
 
-export const Token: Model<TokenInterface> = mongoose.model('Token', tokenSchema);
-export default Token;
+export default tokenSchema;
