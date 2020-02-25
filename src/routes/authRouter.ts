@@ -114,11 +114,20 @@ router.post('/register', async (req, res) => {
         user.regNo = undefined;
     }
 
-    const duplicate = await User.findOne({
-        $or: [
-            { email: user.email }, { username: user.username },
-        ],
-    });
+    let duplicate;
+    if (req.body.isVitian) {
+        duplicate = await User.findOne({
+            $or: [
+                { email: user.email }, { username: user.username }, { regNo: user.regNo },
+            ],
+        });
+    } else {
+        duplicate = await User.findOne({
+            $or: [
+                { email: user.email }, { username: user.username },
+            ],
+        });
+    }
     if (duplicate) {
         jsonResponse.message = constants.duplicate;
         jsonResponse.duplicates = [];
@@ -127,6 +136,10 @@ router.post('/register', async (req, res) => {
         }
         if (duplicate.username === user.username) {
             jsonResponse.duplicates.push('Username');
+        }
+
+        if (req.body.isVitian && duplicate.regNo === user.regNo) {
+            jsonResponse.duplicates.push('Registration Number');
         }
 
         res.json(jsonResponse);
