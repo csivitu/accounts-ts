@@ -57,6 +57,8 @@ router.post('/register', async (req, res) => {
     const jsonResponse = {
         success: false,
         message: constants.defaultResponse,
+        redirect: '',
+        redirectClient: '',
         duplicates: [] as string[],
     };
     const recaptcha = await verifyRecaptcha(req.body.grecaptcha_token);
@@ -108,7 +110,7 @@ router.post('/register', async (req, res) => {
             res.json(jsonResponse);
             return;
         }
-        user.regNo = '';
+        user.regNo = undefined;
     }
 
     const duplicate = await User.findOne({
@@ -148,6 +150,19 @@ router.post('/register', async (req, res) => {
     jsonResponse.success = true;
     jsonResponse.message = constants.registrationSuccess;
 
+    if (req.session.clientId && jsonResponse.success) {
+        const redirectUri = new url.URL(req.session.redirectUri);
+        redirectUri.searchParams.append('token', generateToken(user));
+        redirectUri.searchParams.append('state', req.session.state);
+        jsonResponse.redirect = redirectUri.href;
+        jsonResponse.redirectClient = req.session.clientName;
+
+        req.session.clientId = undefined;
+        req.session.clientName = undefined;
+        req.session.redirectUri = undefined;
+        req.session.state = undefined;
+    }
+
     res.json(jsonResponse);
 });
 
@@ -176,6 +191,7 @@ router.post('/login', async (req, res) => {
     const jsonResponse = {
         success: false,
         message: constants.defaultResponse,
+        redirectClient: '',
         redirect: '',
     };
 
@@ -229,8 +245,10 @@ router.post('/login', async (req, res) => {
         redirectUri.searchParams.append('token', generateToken(participant));
         redirectUri.searchParams.append('state', req.session.state);
         jsonResponse.redirect = redirectUri.href;
+        jsonResponse.redirectClient = req.session.clientName;
 
         req.session.clientId = undefined;
+        req.session.clientName = undefined;
         req.session.redirectUri = undefined;
         req.session.state = undefined;
     }

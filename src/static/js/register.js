@@ -56,30 +56,35 @@ class InputField {
     }
 }
 
-function registrationSuccess(email) {
+function registrationSuccess(email, redirectUrl, redirectClient) {
+    let redirectMessage = '';
+
+    if (redirectUrl) {
+        redirectMessage = `You will be redirected back to ${redirectClient} in 5 seconds <br><br>`;
+    }
     const message = `<div class="text-center form-message mt-3">
-                        You have registered successfully! We have emailed you account verification instructions at <br>
+                        You have registered successfully! Please verify your email, we have sent you a mail at<br>
                         <a href="mailto:${email}" style="color: #0381ff; font-size: 2rem;">${email}</a>.<br><br>
+                        ${redirectMessage}
                         Need help? <a href="mailto:askcsivit@gmail.com">Contact us</a>.
                     </div>`;
 
-    const cardTitle = '<div class="card-title"><strong>CHECK YOUR EMAIL</strong></div>';
+    const cardTitle = '<div class="card-title"><strong>Your CSI Account has been created!</strong></div>';
 
     $('.card-title').replaceWith(cardTitle);
     $('.card-body').replaceWith(message);
+
+    if (redirectUrl) {
+        setTimeout(() => {
+            window.location.href = redirectUrl;
+        }, 5000);
+    }
 }
 
 const fieldObjs = {};
 
 function onSubmit(token) {
-    const keys = Object.keys(fieldObjs);
-    for (let i = 0; i < keys.length; i += 1) {
-        if (!fieldObjs[keys[i]].validate()) {
-            $('.submit-failure').html('Please correct the invalid fields.').show();
-            return;
-        }
-    }
-
+    console.log(token);
     const userEmail = $('input[name="email"]').val();
 
     $.ajax({
@@ -100,7 +105,7 @@ function onSubmit(token) {
     })
         .done((response) => {
             if (response.success && response.message === 'registrationSuccess') {
-                registrationSuccess(userEmail);
+                registrationSuccess(userEmail, response.redirect, response.redirectClient);
             } else if (response.message === 'duplicate') {
                 if (!response.duplicates) {
                     $('.submit-failure').html('An unknown error has occured.').show();
@@ -157,6 +162,13 @@ $(() => {
     });
 
     $('#login-form').submit(() => {
+        const keys = Object.keys(fieldObjs);
+        for (let i = 0; i < keys.length; i += 1) {
+            if (!fieldObjs[keys[i]].validate()) {
+                $('.submit-failure').html('Please correct the invalid fields.').show();
+                return false;
+            }
+        }
         // eslint-disable-next-line no-undef
         grecaptcha.execute();
         return false;

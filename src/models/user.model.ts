@@ -27,6 +27,7 @@ const userSchema = new mongoose.Schema({
     },
     regNo: {
         type: String,
+        sparse: true,
     },
     gender: {
         type: String,

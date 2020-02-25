@@ -6,7 +6,6 @@ export const router = express.Router();
 
 router.get('/authorize', async (req, res) => {
     const { clientId, state, redirectUrl } = req.query;
-
     if (!clientId || !state || !redirectUrl) {
         return res.status(400).json({
             success: false,
