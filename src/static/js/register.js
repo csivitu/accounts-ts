@@ -84,7 +84,6 @@ function registrationSuccess(email, redirectUrl, redirectClient) {
 const fieldObjs = {};
 
 function onSubmit(token) {
-    console.log(token);
     const userEmail = $('input[name="email"]').val();
 
     $.ajax({
@@ -162,6 +161,7 @@ $(() => {
     });
 
     $('#login-form').submit(() => {
+        $('.submit-failure').hide();
         const keys = Object.keys(fieldObjs);
         for (let i = 0; i < keys.length; i += 1) {
             if (!fieldObjs[keys[i]].validate()) {
