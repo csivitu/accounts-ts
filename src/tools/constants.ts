@@ -36,10 +36,6 @@ export const constants = {
     passwordResetMail: 'passwordResetMailSent',
     passwordResetSuccess: 'passwordResetSuccess',
 
-    emailFrom: 'CSI-VIT',
-    senderEmail: 'tech@csivit.com',
-    emailReplyTo: 'askcsivit.com',
-
     sendResetMailSubject: 'Reset your CSI Account Password',
     sendVerificationMailSubject: 'Verify your CSI Account',
     verificationSuccess: 'verificationSuccess',

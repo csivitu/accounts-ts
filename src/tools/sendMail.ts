@@ -1,51 +1,23 @@
-import sendgrid from 'sendgrid';
-
-import { constants } from './constants';
+import rp from 'request-promise'
 
 require('dotenv').config();
 
 const {
-    SENDGRID_API_KEY,
+    SENGRID_API_KEY,
 } = process.env;
 
-const Sendgrid = sendgrid(SENDGRID_API_KEY);
-
-export const sendMail = async (name: string, email: string, subject: string, content: string) => {
-    const sgReq = Sendgrid.emptyRequest({
-        method: 'POST',
-        path: '/v3/mail/send',
-
-        body: {
-            personalizations: [{
-                to: [{
-                    name,
-                    email,
-                }],
-                subject,
-            }],
-
-            from: {
-                name: constants.emailFrom,
-                email: constants.senderEmail,
-            },
-
-            content: [{
-                type: 'text/html',
-                value: content,
-            }],
-
-            replyTo: {
-                email: constants.emailReplyTo,
-                name: constants.emailFrom,
-            },
-        },
-    });
-
+export const sendMail = async (email: string, subject: string, content: string) => {
     try {
-        await Sendgrid.API(sgReq);
-        console.log('Mail sent successfully');
+        await rp({
+            method: 'POST',
+            uri: 'https://emailer-api.csivit.com/email',
+            body: {
+                html: content, subject: subject, to: email, auth: SENGRID_API_KEY,
+            },
+        });    
+        console.log(`Mail sent to ${email} successfully`);
     } catch (e) {
-        console.log(e.response.body.errors);
+        console.log(e);
     }
 };
 

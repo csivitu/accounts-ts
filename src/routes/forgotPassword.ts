@@ -25,7 +25,7 @@ const sendResetMail = async (participant: UserInterface) => {
         resetLink: resetLink.href,
     });
 
-    await sendMail(participant.name, participant.email,
+    await sendMail(participant.email,
         constants.sendResetMailSubject, renderedHtml);
 };
 

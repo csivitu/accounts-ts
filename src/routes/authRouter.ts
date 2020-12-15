@@ -33,7 +33,7 @@ const sendVerificationMail = async (participant: UserInterface) => {
         name: participant.name,
         verifyLink: verifyLink.href,
     });
-    await sendMail(participant.name, participant.email,
+    await sendMail(participant.email,
         constants.sendVerificationMailSubject, renderedHtml);
 };
 
