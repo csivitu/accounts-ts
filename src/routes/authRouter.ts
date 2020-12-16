@@ -76,7 +76,7 @@ router.post('/register', async (req, res) => {
     const password = req.body.password.toString();
     const regNo = req.body.regNo.toString();
     const gender = req.body.gender.toString();
-    const isVitian = req.body.isVitian.toString();
+    const isVitian = req.body.isVitian.toString() == 'true';
 
     const user = new User({
         username,
@@ -104,7 +104,7 @@ router.post('/register', async (req, res) => {
         return;
     }
 
-    if (req.body.isVitian) {
+    if (isVitian) {
         if (!verifyRegNo(user.regNo)) {
             jsonResponse.message = constants.invalidRegNo;
             res.json(jsonResponse);
