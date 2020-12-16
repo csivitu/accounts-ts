@@ -3,6 +3,7 @@ import { UserInterface } from '../models/user';
 
 export const generateToken = (user: UserInterface) => {
     const userObj = {
+        verificationStatus: user.verificationStatus,
         name: user.name,
         username: user.username,
         email: user.email,

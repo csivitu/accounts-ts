@@ -30,8 +30,10 @@ const sendResetMail = async (participant: UserInterface) => {
 };
 
 router.post('/forgotPassword', async (req, res) => {
+    const email = req.body.email.toString();
+
     const participant = await User.findOne({
-        email: req.body.email,
+        email,
     });
 
     if (!participant) {
@@ -76,10 +78,13 @@ router.get('/resetPassword', async (req, res) => {
 
 router.post('/resetPassword', async (req, res) => {
     const saltRounds = 10;
-    const password = await bcrypt.hash(req.body.password, saltRounds);
+    const passwordReq = req.body.password.toString();
+    const token = req.body.token.toString();
+
+    const password = await bcrypt.hash(passwordReq, saltRounds);
 
     const participant = await User.findOneAndUpdate({
-        passwordResetToken: req.body.token,
+        passwordResetToken: token,
     }, {
         passwordResetToken: 'default',
         password,

@@ -7,6 +7,7 @@
     "start": "ts-node-dev --respawn --transpileOnly src/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint \"src/**/*.{ts,js,jsx}\"",
+    "lint:fix": "eslint --fix \"src/**/*.{ts,js,jsx}\"",
     "build": "gulp"
   },
   "husky": {
@@ -62,7 +63,7 @@
     "gulp-typescript": "^5.0.1",
     "gulp-uglify": "^3.0.2",
     "husky": "^3.0.9",
-    "ts-node-dev": "^1.0.0-pre.44",
+    "ts-node-dev": "^1.1.1",
     "typescript": "^3.6.4"
   },
   "repository": {

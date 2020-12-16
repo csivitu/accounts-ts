@@ -68,14 +68,24 @@ router.post('/register', async (req, res) => {
         res.json(jsonResponse);
         return;
     }
+
+    const username = req.body.username.toString();
+    const name = req.body.name.toString();
+    const email = req.body.email.toString();
+    const mobile = req.body.mobile.toString();
+    const password = req.body.password.toString();
+    const regNo = req.body.regNo.toString();
+    const gender = req.body.gender.toString();
+    const isVitian = req.body.isVitian.toString();
+
     const user = new User({
-        username: req.body.username,
-        name: req.body.name,
-        email: req.body.email,
-        mobile: req.body.mobile,
-        password: req.body.password,
-        regNo: req.body.regNo,
-        gender: req.body.gender,
+        username,
+        name,
+        email,
+        mobile,
+        password,
+        regNo,
+        gender,
     });
 
     if (!verifyUsername(user.username)) {
@@ -115,7 +125,7 @@ router.post('/register', async (req, res) => {
     }
 
     let duplicate;
-    if (req.body.isVitian) {
+    if (isVitian) {
         duplicate = await User.findOne({
             $or: [
                 { email: user.email }, { username: user.username }, { regNo: user.regNo },
@@ -138,7 +148,7 @@ router.post('/register', async (req, res) => {
             jsonResponse.duplicates.push('Username');
         }
 
-        if (req.body.isVitian && duplicate.regNo === user.regNo) {
+        if (isVitian && duplicate.regNo === user.regNo) {
             jsonResponse.duplicates.push('Registration Number');
         }
 
@@ -148,7 +158,7 @@ router.post('/register', async (req, res) => {
 
     const saltRounds = 10;
 
-    user.password = await bcrypt.hash(req.body.password, saltRounds);
+    user.password = await bcrypt.hash(password, saltRounds);
     user.emailVerificationToken = (await crypto.randomBytes(32)).toString('hex');
     user.passwordResetToken = 'default';
     user.scope = ['user'];
@@ -213,7 +223,9 @@ router.post('/login', async (req, res) => {
         return;
     }
 
-    const { username, password } = req.body;
+    let { username, password } = req.body;
+    username = username.toString();
+    password = password.toString();
 
     if ((!username) || !password) {
         jsonResponse.message = constants.serverError;
