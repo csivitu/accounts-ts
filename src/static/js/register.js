@@ -5,7 +5,7 @@ function isChecked(checkboxId) {
 const regexes = {
     vitEmailRegex: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((vitstudent.ac.in)|(vit.ac.in))$/,
     emailRegex: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-    mobileRegex: /^[6-9]\d{8,9}$/, // 9-10 characters
+    mobileRegex: /^\+(?:[0-9] ?){6,14}[0-9]$/, // 9-10 characters
     passwordRegex: /^[a-zA-Z0-9`!@#$%^&*()-/:'.,{}_"~]{8,50}$/, // 8-50 characters,
     regNoRegex: /^\d\d[A-Z]{3}[0-9]{4}$/,
     usernameRegex: /^[a-zA-Z0-9`!@#$%^&*()-/:'.,{}_"~]{3,20}$/,
