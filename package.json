@@ -4,7 +4,7 @@
   "description": "Accounts Website",
   "main": "server.js",
   "scripts": {
-    "start": "ts-node-dev --respawn --transpileOnly src/server.ts",
+    "start": "ts-node src/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint \"src/**/*.{ts,js,jsx}\"",
     "lint:fix": "eslint --fix \"src/**/*.{ts,js,jsx}\"",
@@ -31,7 +31,8 @@
     "mongoose": "^5.5.5",
     "oauth2-server": "^3.0.1",
     "request": "^2.88.0",
-    "request-promise": "^4.2.5"
+    "request-promise": "^4.2.5",
+    "ts-node": "^10.9.1"
   },
   "devDependencies": {
     "@babel/core": "^7.7.2",

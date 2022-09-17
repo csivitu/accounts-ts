@@ -3,7 +3,7 @@ import axios from 'axios';
 require('dotenv').config();
 
 const {
-    SENGRID_API_KEY,
+    MAILGUN_API_KEY,
 } = process.env;
 
 export const sendMail = async (email: string, subject: string, content: string) => {
@@ -12,7 +12,7 @@ export const sendMail = async (email: string, subject: string, content: string) 
             html: content,
             subject,
             to: email,
-            auth: SENGRID_API_KEY,
+            auth: MAILGUN_API_KEY,
         });
         console.log(`Mail sent to ${email} successfully`);
     } catch (e) {
