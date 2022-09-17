@@ -76,7 +76,7 @@ router.post('/register', async (req, res) => {
     const password = req.body.password.toString();
     const regNo = req.body.regNo.toString();
     const gender = req.body.gender.toString();
-    const isVitian = req.body.isVitian.toString() == 'true';
+    const isVitian = req.body.isVitian.toString() === 'true';
 
     const user = new User({
         username,
