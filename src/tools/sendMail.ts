@@ -2,13 +2,16 @@ import axios from 'axios';
 
 require('dotenv').config();
 
-const {
-    MAILGUN_API_KEY,
-} = process.env;
+const { MAILGUN_API_KEY } = process.env;
+const { EMAILER_BACKEND_URL } = process.env;
 
-export const sendMail = async (email: string, subject: string, content: string) => {
+export const sendMail = async (
+    email: string,
+    subject: string,
+    content: string,
+) => {
     try {
-        await axios.post('https://emailer-api.csivit.com/email', {
+        await axios.post(`${EMAILER_BACKEND_URL}/email`, {
             html: content,
             subject,
             to: email,

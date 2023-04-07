@@ -55,17 +55,17 @@ const userSchema = new mongoose.Schema({
 });
 
 export interface UserInterface extends mongoose.Document {
-    name: string;
-    username: string;
-    email: string;
-    mobile: string;
-    password: string;
-    regNo: string;
-    gender: string;
-    emailVerificationToken: string;
-    verificationStatus: string;
-    passwordResetToken: string;
-    scope: string[];
+  name: string;
+  username: string;
+  email: string;
+  mobile: string;
+  password: string;
+  regNo: string;
+  gender: string;
+  emailVerificationToken: string;
+  verificationStatus: string;
+  passwordResetToken: string;
+  scope: string[];
 }
 
 export default userSchema;

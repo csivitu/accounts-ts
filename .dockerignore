@@ -1,0 +1,40 @@
+# Ignore node_modules and other dependency directories
+node_modules
+pnpm-global
+pnpm-store
+
+# Ignore version control system directories
+.git
+.gitignore
+.svn
+.hg
+.hgignore
+
+# Ignore build output
+dist
+
+# Ignore environment files
+.env
+.env.production
+.env.staging
+.env.local
+.env.*.local
+
+# Ignore logs and temporary files
+*.log
+*.swp
+*.swo
+*.tmp
+
+# Ignore OS generated files
+.DS_Store
+Thumbs.db
+
+# Ignore IDE/project configuration files
+.vscode
+.idea
+*.iml
+*.suo
+*.user
+*.sublime-project
+*.sublime-workspace

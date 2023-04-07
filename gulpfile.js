@@ -7,6 +7,8 @@ const rename = require('gulp-rename');
 
 const gulpTS = require('gulp-typescript');
 const tsProject = gulpTS.createProject('tsconfig.json');
+require('dotenv').config();
+
 
 const dotenvConfig = {
     SESSION_SECRET: process.env.SESSION_SECRET,
@@ -19,32 +21,37 @@ const dotenvConfig = {
     JWT_EXPIRY: process.env.JWT_EXPIRY,
     ACCOUNTS_DB: process.env.ACCOUNTS_DB,
     RECAPTCHA_SECRET: process.env.RECAPTCHA_SECRET,
-}
+};
 
 function templates() {
     return src('src/templates/**/*')
-        .pipe(dest('dist/templates'))
+        .pipe(dest('dist/templates'));
 }
 
 function css() {
     return src('src/static/css/*.css')
         .pipe(minifyCSS())
-        .pipe(dest('dist/static/css/'))
+        .pipe(dest('dist/static/css/'));
+}
+
+function images() {
+    return src('src/static/images/*')
+        .pipe(dest('dist/static/images/'));
 }
 
 function js() {
     return src('src/static/js/*.js', { sourcemaps: true })
         .pipe(babel({
-            presets: ['@babel/preset-env']
+            presets: ['@babel/preset-env'],
         }))
         .pipe(uglify())
-        .pipe(dest('dist/static/js', { sourcemaps: true }))
+        .pipe(dest('dist/static/js', { sourcemaps: true }));
 }
 
 function ts() {
     return tsProject.src()
         .pipe(tsProject())
-        .js.pipe(dest('dist'))
+        .js.pipe(dest('dist'));
 }
 
 function setupDotEnv(cb) {
@@ -62,4 +69,4 @@ function setupDotEnv(cb) {
     }
 }
 
-exports.default = series(parallel(templates, css, js, ts), setupDotEnv);
+exports.default = series(parallel(templates, css, images, js, ts), setupDotEnv);

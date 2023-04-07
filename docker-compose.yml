@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  accounts-ts:
+    build:
+      context: .
+      target: production
+    image: accounts-ts:latest
+    container_name: accounts-ts
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - '7000:7000'

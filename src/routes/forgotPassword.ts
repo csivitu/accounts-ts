@@ -19,7 +19,7 @@ const sendResetMail = async (participant: UserInterface) => {
     const resetLink = new URL(process.env.RESET_LINK);
     resetLink.search = `token=${participant.passwordResetToken}`;
 
-    const renderedHtml = await hb.render('src/templates/reset.hbs', {
+    const renderedHtml = await hb.render('./dist/templates/reset.hbs', {
         name: participant.name,
         username: participant.username,
         resetLink: resetLink.href,

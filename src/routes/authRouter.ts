@@ -29,7 +29,7 @@ export const router = express.Router();
 const sendVerificationMail = async (participant: UserInterface) => {
     const verifyLink = new url.URL(process.env.VERIFY_LINK);
     verifyLink.searchParams.append('token', participant.emailVerificationToken);
-    const renderedHtml = await hb.render('src/templates/verify.hbs', {
+    const renderedHtml = await hb.render('./dist/templates/verify.hbs', {
         name: participant.name,
         verifyLink: verifyLink.href,
     });
